@@ -84,10 +84,10 @@ void ArbolBicicletas::listarMasDeXKmRec(NodoBici *nodo, int limiteKm, bool &seEn
     if (nodo->datos.kilometros > limiteKm)
     {
         cout << "- Bici ID: " << nodo->datos.biciId
-             << " | Estacion: " << nodo->datos.codigoEstacion
-             << " | Tipo: " << nodo->datos.tipo
-             << " | Estado: " << nodo->datos.estado
-             << " | Kilometros: " << nodo->datos.kilometros << " km\n";
+        << " | Estacion: " << nodo->datos.codigoEstacion
+        << " | Tipo: " << nodo->datos.tipo
+        << " | Kilometros: " << nodo->datos.kilometros << " km\n";
+        << " | Estado: " << nodo->datos.estado
         seEncontraron = true;
     }
 

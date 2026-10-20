@@ -1,5 +1,4 @@
-#ifndef LISTAVIAJES_H
-#define LISTAVIAJES_H
+#pragma once
 #include <string>
 using namespace std;
 
@@ -42,5 +41,3 @@ public:
     void buscarViajesPorDNI(const string &dniBuscado);
     void listarBicicletasConMasDe_Km(int km);
 };
-
-#endif

@@ -1,4 +1,6 @@
+#pragma once
 #include <iostream>
+#include "estacion.h"
 using namespace std;
 
 class Grafo
@@ -10,7 +12,14 @@ private:
         Nodo *siguiente;
     };
 
+    struct Vertice
+    {
+        Estacion *estacion;
+        NodoAdyacente *adyacentes;
+    };
+
     int cantidadVertices;
+
     Nodo **adyacencia;
 
 public:
