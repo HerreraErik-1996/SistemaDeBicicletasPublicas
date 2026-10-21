@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "estacion.h"
+#include "Estacion.h"
 using namespace std;
 
 class Grafo
@@ -15,7 +15,7 @@ private:
     struct Vertice
     {
         Estacion *estacion;
-        NodoAdyacente *adyacentes;
+        Nodo *adyacentes;
     };
 
     int cantidadVertices;

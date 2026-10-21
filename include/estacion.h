@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
-#include "bicicleta.h"
+#include "Bicicleta.h"
 
 using namespace std;
 
@@ -22,12 +22,12 @@ private:
     NodoBicicleta *primeraBicicleta;
 
 public:
-    Estacion(string codigo, string nombre, string barrio, int capAnclaje, int bicisDisp){
-        codigo;
-        nombre;
-        barrio;
-        capAnclaje;
-        bicisDisp;
+    Estacion(string cod, string nom, string barrio, int capAnclaje, int bicisDisp){
+        codigo = cod;
+        nombre = nom;
+        barrio = barrio;
+        capAnclaje = capAnclaje;
+        bicisDisp = bicisDisp;
         primeraBicicleta = nullptr;
     }
 
