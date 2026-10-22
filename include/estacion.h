@@ -31,14 +31,14 @@ public:
         primeraBicicleta = nullptr;
     }
 
-    int getCapacidad(){
+    int getCapacidad() const{
         return capAnclaje;
     }
 
-    int getBicisDisp(){
+    int getBicisDisp() const{
         return bicisDisp;
     }
-    
+
     bool agregarBici(Bicicleta *bici){
         if (bicisDisp >= capAnclaje || bici == nullptr){
             return false;
@@ -52,11 +52,16 @@ public:
         return true;
     }
 
-    void mostrarInfo(){
+    void mostrarInfo() const{
         cout << "- Nombre: " << nombre 
         << " | Estacion: " << barrio
         << " | Tipo: " << capAnclaje
         << " | Kilometros: " << bicisDisp;
+    }
+
+    string getCodigo() const
+    {
+        return codigo;
     }
 
     ~Estacion()
@@ -68,6 +73,5 @@ public:
             delete auxiliar;
         }
     }
-    Estacion(const Estacion&) = delete;
     Estacion& operator=(const Estacion&) = delete;
 };

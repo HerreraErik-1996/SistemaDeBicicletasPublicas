@@ -46,7 +46,6 @@ void ListaViajes::cargarDesdeArchivo(const string &rutaArchivo)
     {
         agregarViaje(v);
     }
-
     archivo.close();
 }
 

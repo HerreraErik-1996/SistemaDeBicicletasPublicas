@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "Estacion.h"
+#include "estacion.h"
 using namespace std;
 
 class Grafo
@@ -23,26 +23,25 @@ private:
     Nodo **adyacencia;
 
 public:
-    Grafo (int cantidad)
+    Grafo(int cantidad)
     {
         cantidadVertices = cantidad;
         adyacencia = new Nodo *[cantidadVertices];
-        for (int i = 0; i < cantidadVertices; i++){
+        for (int i = 0; i < cantidadVertices; i++)
+        {
             adyacencia[i] = nullptr;
         }
     }
 
     void agregarArista(int origen, int destino)
     {
-        if (origen < 0 || origen >= cantidadVertices || destino < 0 || destino >= cantidadVertices){
-                return;
-            }
+
         Nodo *nuevo = new Nodo;
-        nuevo->vertice= destino;
-        nuevo->siguiente= adyacencia[origen];
+        nuevo->vertice = destino;
+        nuevo->siguiente = adyacencia[origen];
         adyacencia[origen] = nuevo;
-        
-        //porque es grafo no dirigido
+
+        // porque es grafo no dirigido
         Nodo *nuevo2 = new Nodo;
         nuevo2->vertice = destino;
         nuevo2->siguiente = adyacencia[destino];

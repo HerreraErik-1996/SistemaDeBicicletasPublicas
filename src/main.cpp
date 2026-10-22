@@ -1,24 +1,70 @@
+#pragma once
 #include <iostream>
-#include "Sistema.h"
-#include "CargadorDatos.h"
+#include <fstream>
+#include "Grafo.h"
 
-int main()
+#include "Sistema.h"
+using namespace std;
+
+Grafo redEstaciones;
+bool cargarCiclovias()
+{
+    ifstream archivo("data/ciclovias.txt");
+
+    if (!archivo.is_open())
+    {
+        cout << "Error al abrir ciclovias.txt\n";
+        return false;
+    }
+
+    string encabezado;
+    getline(archivo, encabezado); // descartamos el encabezado
+
+    string origen;
+    string destino;
+
+    while (archivo >> origen >> destino)
+    {
+        redEstaciones.agregarArista(origen, destino);
+    }
+    return true;
+};
+
+bool cargarEstaciones()
 {
 
-    Sistema sistema;
-    CargadorDatos cargador;
+    ifstream archivo("data/estaciones.txt");
 
-    if (!cargador.cargarEstaciones(sistema))
+    if (!archivo.is_open())
     {
-        return 1;
+        cout << "Error al abrir estaciones.txt\n";
+        return false;
     }
 
-    if (!cargador.cargarCiclovias(sistema))
+    string encabezado;
+    getline(archivo, encabezado);
+
+    string codigo;
+    string nombre;
+    string barrio;
+    int capacidad;
+    int disponibles;
+
+    while (archivo >> codigo >> nombre >> barrio >> capacidad >> disponibles)
     {
-        return 1;
+        redEstaciones.agregarEstacion(
+            codigo,
+            nombre,
+            barrio,
+            capacidad,
+            disponibles);
     }
+    return true;
 
     sistema.ejecutarMenu();
 
     return 0;
 }
+
+int main() {
+};

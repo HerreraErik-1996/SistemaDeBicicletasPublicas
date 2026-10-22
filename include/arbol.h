@@ -1,10 +1,19 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "bicicleta.h"
 using namespace std;
+
 class Arbol
 {
 private:
+    struct NodoBici
+    {
+        int dato;
+        NodoBici *izquierdo;
+        NodoBici *derecho;
+    };
+
     NodoBici *raiz;
 
     // Métodos privados auxiliares recursivos
@@ -14,6 +23,7 @@ private:
 
 public:
     ArbolBicicletas();
+    
     ~ArbolBicicletas();
 
     void insertar(const Bicicleta &bici);
