@@ -22,12 +22,12 @@ private:
     NodoBicicleta *primeraBicicleta;
 
 public:
-    Estacion(string cod, string nom, string barrio, int capAnclaje, int bicisDisp){
+    Estacion(string cod, string nom, string bar, int capAn, int bcDisp){
         codigo = cod;
         nombre = nom;
-        barrio = barrio;
-        capAnclaje = capAnclaje;
-        bicisDisp = bicisDisp;
+        barrio = bar;
+        capAnclaje = capAn;
+        bicisDisp = bcDisp;
         primeraBicicleta = nullptr;
     }
 

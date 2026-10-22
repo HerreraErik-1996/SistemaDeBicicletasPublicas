@@ -60,11 +60,17 @@ bool cargarEstaciones()
             disponibles);
     }
     return true;
-
-    sistema.ejecutarMenu();
-
-    return 0;
 }
 
+//sistema.ejecutarMenu();
+
 int main() {
+    cargarEstaciones;
+    cargarCiclovias;
+    if (cargarEstaciones() && cargarCiclovias())
+    {
+        cout << "\n--- GRAFO DE ESTACIONES ---\n";
+        redEstaciones.mostrar();
+    }
+    return 0;
 };
