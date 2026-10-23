@@ -111,7 +111,7 @@ public:
     {
         for (int i = 0; i < cantidadVertices; i++)
         {
-            cout << "Vertice " << vertices[i].estacion->getCodigo() << ": ";
+            cout << "Estacion " << vertices[i].estacion->getCodigo() << ": ";
 
             Nodo *actual = vertices[i].adyacentes;
 
@@ -127,22 +127,7 @@ public:
         }
     }
 
-    ~Grafo()
-    {
-        for (int i = 0; i < cantidadVertices; i++)
-        {
-            Nodo *actual = listaAdyacencia[i];
-
-            while (actual != nullptr)
-            {
-                Nodo *auxiliar = actual;
-                actual = actual->siguiente;
-                delete auxiliar;
-            }
-        }
-
-        delete[] listaAdyacencia;
-    }
+    
     Grafo(const Grafo &) = delete;
     Grafo &operator=(const Grafo &) = delete;
 };

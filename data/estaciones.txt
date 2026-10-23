@@ -1,3 +1,4 @@
+codigo nombre barrio capacidad_anclajes bicis_disponibles
 PLZ PlazaDeMayo Monserrat 30 12
 PAL ParqueTresDeFebrero Palermo 40 35
 CAB PrimeraJunta Caballito 25 4

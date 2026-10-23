@@ -1,12 +1,10 @@
-#pragma once
 #include <iostream>
 #include <fstream>
-#include "Grafo.h"
-
-#include "Sistema.h"
+#include "../include/Grafo.h"
+#include "../include/Sistema.h"
 using namespace std;
 
-Grafo redEstaciones;
+Grafo redEstaciones; 
 bool cargarCiclovias()
 {
     ifstream archivo("data/ciclovias.txt");
@@ -65,8 +63,6 @@ bool cargarEstaciones()
 //sistema.ejecutarMenu();
 
 int main() {
-    cargarEstaciones;
-    cargarCiclovias;
     if (cargarEstaciones() && cargarCiclovias())
     {
         cout << "\n--- GRAFO DE ESTACIONES ---\n";
