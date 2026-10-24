@@ -1,35 +1,28 @@
 #pragma once
 #include <string>
 
-using namespace std;
 
 class Bicicleta
 {
 private:
-    int biciId;
-    string codigoEstacion;
-    string tipo;   // "Mecanica" o "Electrica"
-    string estado; // "OK" o "Averiada"
+    int id;
+    std::string codigoEstacion;
+    std::string tipo;   // "Mecanica" o "Electrica"
+    std::string estado; // "OK" o "Averiada"
     int kilometros;
 
 public:
-    Bicicleta(int biciId,string codigoEstacion, string tipo, string estado, int kilometros){
-        biciId;
-        codigoEstacion;
-        tipo;
-        estado;
-        kilometros;
-    }
+    Bicicleta(int biciId, const std::string &codigoEstacion, const std::string &tipo, const std::string &estado, int kilometros);
 
-    int getCodigo(){
-        return biciId;
-    }
+    int getId() const;
+    std::string getCodigoEstacion() const;
+    std::string getTipo() const;
+    std::string getEstado() const;
+    int kilometraje() const;
 
-    bool estaDisponible(){
-        return estado == "OK" ;
-    }
+    bool estaDisponible() const;
 
-    int kilometraje(){
-        return kilometros ;
-    }
+    void setEstado(const std::string& nuevoEstado);
+    void setCodigoEstacion(const std::string& nuevoCodigo);
+    void agregarKilometros(int km);
 };

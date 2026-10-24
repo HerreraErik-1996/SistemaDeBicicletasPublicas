@@ -3,8 +3,6 @@
 #include <iostream>
 #include "bicicleta.h"
 
-using namespace std;
-
 class Estacion
 {
 private:
@@ -14,70 +12,22 @@ private:
         NodoBicicleta *siguiente;
     };
 
-    string codigo;
-    string nombre;
-    string barrio;
+    std::string codigo;
+    std::string nombre;
+    std::string barrio;
     int capAnclaje;
     int bicisDisp;
     NodoBicicleta *primeraBicicleta;
 
 public:
-    Estacion(string cod, string nom, string bar, int capAn, int bcDisp)
-    {
-        codigo = cod;
-        nombre = nom;
-        barrio = bar;
-        capAnclaje = capAn;
-        bicisDisp = bcDisp;
-        primeraBicicleta = nullptr;
-    }
+    Estacion(std::string cod, std::string nom, std::string bar, int capAn, int bcDisp);
 
-    int getCapacidad() const
-    {
-        return capAnclaje;
-    }
+    int getCapacidad() const;
+    int getBicisDisp() const;
 
-    int getBicisDisp() const
-    {
-        return bicisDisp;
-    }
-
-    bool agregarBici(Bicicleta *bici)
-    {
-        if (bicisDisp >= capAnclaje || bici == nullptr)
-        {
-            return false;
-        }
-        NodoBicicleta *nueva = new NodoBicicleta;
-        nueva->bicicleta = bici;
-        nueva->siguiente = primeraBicicleta;
-        primeraBicicleta = nueva;
-
-        bicisDisp++;
-        return true;
-    }
-
-    void mostrarInfo() const
-    {
-        cout << "- Nombre: " << nombre
-             << " | Estacion: " << barrio
-             << " | Tipo: " << capAnclaje
-             << " | Kilometros: " << bicisDisp;
-    }
-
-    string getCodigo() const
-    {
-        return codigo;
-    }
-
-    ~Estacion()
-    {
-        while (primeraBicicleta != nullptr)
-        {
-            NodoBicicleta *auxiliar = primeraBicicleta;
-            primeraBicicleta = primeraBicicleta->siguiente;
-            delete auxiliar;
-        }
-    }
+    bool agregarBici(Bicicleta *bici);
+    void mostrarInfo() const;
+    string getCodigo() const;
+    ~Estacion();
     Estacion &operator=(const Estacion &) = delete;
 };

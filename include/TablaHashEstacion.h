@@ -4,20 +4,11 @@
 #include "estacion.h"
 
 // Nodo de la lista enlazada para manejar colisiones
-<<<<<<< HEAD
-struct NodoHash
-{
-    Estacion estacion;
-    NodoHash *siguiente;
-
-    NodoHash(const Estacion &e) : estacion(e), siguiente(nullptr) {}
-=======
 struct NodoHash {
     Estacion *estacion;
     NodoHash *siguiente;
 
     NodoHash(Estacion *e) : estacion(e), siguiente(nullptr) {}
->>>>>>> fcb6939e3fa88ce6179061daad7497fb8a5cd5d6
 };
 
 class TablaHashEstaciones
@@ -67,14 +58,8 @@ public:
         delete[] tabla;
     }; // Liberar toda la memoria dinámica
 
-<<<<<<< HEAD
-    bool insertar(const Estacion &estacion)
-    {
-        int indice = funcionHash(estacion.getCodigo());
-=======
     bool insertar(Estacion* estacion) {
         int indice = funcionHash(estacion->getCodigo());
->>>>>>> fcb6939e3fa88ce6179061daad7497fb8a5cd5d6
 
         // Si la celda ya tiene elementos, hubo colisión
         if (tabla[indice] != nullptr)
