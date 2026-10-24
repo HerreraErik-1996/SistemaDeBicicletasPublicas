@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
-#include "Bicicleta.h"
+#include "bicicleta.h"
 
 using namespace std;
 
@@ -22,7 +22,8 @@ private:
     NodoBicicleta *primeraBicicleta;
 
 public:
-    Estacion(string cod, string nom, string bar, int capAn, int bcDisp){
+    Estacion(string cod, string nom, string bar, int capAn, int bcDisp)
+    {
         codigo = cod;
         nombre = nom;
         barrio = bar;
@@ -31,32 +32,37 @@ public:
         primeraBicicleta = nullptr;
     }
 
-    int getCapacidad() const{
+    int getCapacidad() const
+    {
         return capAnclaje;
     }
 
-    int getBicisDisp() const{
+    int getBicisDisp() const
+    {
         return bicisDisp;
     }
 
-    bool agregarBici(Bicicleta *bici){
-        if (bicisDisp >= capAnclaje || bici == nullptr){
+    bool agregarBici(Bicicleta *bici)
+    {
+        if (bicisDisp >= capAnclaje || bici == nullptr)
+        {
             return false;
         }
-        NodoBicicleta* nueva = new NodoBicicleta;
-        nueva->bicicleta=bici;
-        nueva->siguiente= primeraBicicleta;
-        primeraBicicleta=nueva;
+        NodoBicicleta *nueva = new NodoBicicleta;
+        nueva->bicicleta = bici;
+        nueva->siguiente = primeraBicicleta;
+        primeraBicicleta = nueva;
 
         bicisDisp++;
         return true;
     }
 
-    void mostrarInfo() const{
-        cout << "- Nombre: " << nombre 
-        << " | Estacion: " << barrio
-        << " | Tipo: " << capAnclaje
-        << " | Kilometros: " << bicisDisp;
+    void mostrarInfo() const
+    {
+        cout << "- Nombre: " << nombre
+             << " | Estacion: " << barrio
+             << " | Tipo: " << capAnclaje
+             << " | Kilometros: " << bicisDisp;
     }
 
     string getCodigo() const
@@ -68,10 +74,10 @@ public:
     {
         while (primeraBicicleta != nullptr)
         {
-            NodoBicicleta* auxiliar = primeraBicicleta;
+            NodoBicicleta *auxiliar = primeraBicicleta;
             primeraBicicleta = primeraBicicleta->siguiente;
             delete auxiliar;
         }
     }
-    Estacion& operator=(const Estacion&) = delete;
+    Estacion &operator=(const Estacion &) = delete;
 };

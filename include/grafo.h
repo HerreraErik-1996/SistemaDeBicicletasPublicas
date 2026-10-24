@@ -24,9 +24,12 @@ private:
 
     Vertice *vertices;
 
-    int buscarId(const string &codigo){
-        for (int i = 0; i < cantidadVertices; i++){
-            if (vertices[i].estacion->getCodigo() == codigo){
+    int buscarId(const string &codigo)
+    {
+        for (int i = 0; i < cantidadVertices; i++)
+        {
+            if (vertices[i].estacion->getCodigo() == codigo)
+            {
                 return i;
             }
         }
@@ -37,7 +40,7 @@ public:
     Grafo()
     {
         cantidadVertices = 0;
-        capacidadVertices= 0;
+        capacidadVertices = 0;
         vertices = nullptr;
     }
 
@@ -48,18 +51,23 @@ public:
             cout << "La estacion " << codigo << " ya existe" << endl;
             return;
         }
-        if (cantidadVertices == capacidadVertices){
+        if (cantidadVertices == capacidadVertices)
+        {
             int nuevaCap;
-            
-            if(capacidadVertices == 0){
+
+            if (capacidadVertices == 0)
+            {
                 nuevaCap = 2;
-            }else{
+            }
+            else
+            {
                 nuevaCap = capacidadVertices * 2;
             }
             Vertice *nuevosVertices = new Vertice[nuevaCap];
 
-            for (int i = 0; i < cantidadVertices; i++){
-                nuevosVertices[i]= vertices[i];
+            for (int i = 0; i < cantidadVertices; i++)
+            {
+                nuevosVertices[i] = vertices[i];
             }
             delete[] vertices;
             vertices = nuevosVertices;
@@ -72,24 +80,27 @@ public:
         cantidadVertices++;
     }
 
-    void agregarArista(const string &origen,const string &destino)
+    void agregarArista(const string &origen, const string &destino)
     {
         int idOrigen = buscarId(origen);
         int idDestino = buscarId(destino);
-        //verifica que las estaciones existan
-        if (idOrigen == -1 || idDestino == -1){
+        // verifica que las estaciones existan
+        if (idOrigen == -1 || idDestino == -1)
+        {
             cout << "Error: alguna de las estaciones no existe." << endl;
             return;
         }
-        //evita bucle
+        // evita bucle
         if (idOrigen == idDestino)
         {
             return;
         }
-        //evitar aristas duplicadas
+        // evitar aristas duplicadas
         Nodo *actual = vertices[idOrigen].adyacentes;
-        while (actual != nullptr){
-            if (actual->idVertice == idDestino){
+        while (actual != nullptr)
+        {
+            if (actual->idVertice == idDestino)
+            {
                 return;
             }
             actual = actual->siguiente;
@@ -115,11 +126,13 @@ public:
 
             Nodo *actual = vertices[i].adyacentes;
 
-            while (actual != nullptr){
+            while (actual != nullptr)
+            {
                 int id = actual->idVertice;
                 cout << vertices[id].estacion->getCodigo();
                 actual = actual->siguiente;
-                if (actual != nullptr){
+                if (actual != nullptr)
+                {
                     cout << " -> ";
                 }
             }
@@ -127,7 +140,120 @@ public:
         }
     }
 
-    
+    void listarEstacionesOrdenadas(int tipoListado)
+    {
+        if (this->vertices == nullptr || this->cantidadVertices <= 0)
+        {
+            cout << "No hay estaciones registradas en el grafo.\n";
+            return;
+        }
+
+        // 1. Crear copia auxiliar extrayendo el puntero 'estacion' de cada Vertice
+        Estacion **listaOrdenada = new Estacion *[this->cantidadVertices];
+        for (int i = 0; i < this->cantidadVertices; i++)
+        {
+            listaOrdenada[i] = this->vertices[i].estacion;
+        }
+
+        // 2. Ordenamiento por Inserción (Insertion Sort)
+        for (int i = 1; i < this->cantidadVertices; i++)
+        {
+            Estacion *clave = listaOrdenada[i];
+            int j = i - 1;
+
+            while (j >= 0)
+            {
+                bool debeIntercambiar = false;
+
+                if (tipoListado == 0)
+                {
+                    // Mayor a menor por Capacidad de Anclajes
+                    if (listaOrdenada[j]->getCapacidad() < clave->getCapacidad())
+                    {
+                        debeIntercambiar = true;
+                    }
+                }
+                else if (tipoListado == 1)
+                {
+                    // Mayor a menor por Bicicletas Disponibles
+                    if (listaOrdenada[j]->getBicisDisp() < clave->getBicisDisp())
+                    {
+                        debeIntercambiar = true;
+                    }
+                }
+
+                if (debeIntercambiar)
+                {
+                    listaOrdenada[j + 1] = listaOrdenada[j];
+                    j--;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            listaOrdenada[j + 1] = clave;
+        }
+
+        // 3. Imprimir por pantalla
+        if (tipoListado == 0)
+        {
+            cout << "\n=== ESTACIONES ORDENADAS POR CAPACIDAD DE ANCLAJES (MAYOR A MENOR) ===\n";
+        }
+        else
+        {
+            cout << "\n=== ESTACIONES ORDENADAS POR BICICLETAS DISPONIBLES (MAYOR A MENOR) ===\n";
+        }
+
+        for (int i = 0; i < this->cantidadVertices; i++)
+        {
+            cout << i + 1 << ". ";
+            listaOrdenada[i]->mostrarInfo(); // Muestra los datos de la estación
+        }
+
+        // 4. Liberar memoria dinámica auxiliar
+        delete[] listaOrdenada;
+    }
+
+    void listarEstacionesBajaOcupacion()
+    {
+        if (this->vertices == nullptr || this->cantidadVertices <= 0)
+        {
+            cout << "No hay estaciones registradas en el sistema.\n";
+            return;
+        }
+
+        bool hayEstacionesCriticas = false;
+
+        cout << "\n=== ESTACIONES CON MENOS DEL 20% DE OCUPACIÓN ===\n";
+
+        for (int i = 0; i < this->cantidadVertices; i++)
+        {
+            Estacion *est = this->vertices[i].estacion;
+
+            if (est != nullptr && est->getCapacidad() > 0)
+            {
+                // Evaluación con enteros: (bicis * 100) < (capacidad * 20)
+                if (est->getBicisDisp() * 100 < est->getCapacidad() * 20)
+                {
+                    int porcentaje = (est->getBicisDisp() * 100) / est->getCapacidad();
+
+                    cout << "- Estacion: " << est->getCodigo()
+                         << " | Disponibles: " << est->getBicisDisp()
+                         << " / Capacidad: " << est->getCapacidad()
+                         << " (" << porcentaje << "% de ocupacion)\n";
+
+                    hayEstacionesCriticas = true;
+                }
+            }
+        }
+
+        if (!hayEstacionesCriticas)
+        {
+            cout << "Todas las estaciones operan con una ocupacion igual o superior al 20%.\n";
+        }
+    }
+
     Grafo(const Grafo &) = delete;
     Grafo &operator=(const Grafo &) = delete;
 };

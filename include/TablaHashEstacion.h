@@ -1,24 +1,27 @@
 #pragma once
 #include <string>
 #include <iostream>
-#include "Estacion.h"
+#include "estacion.h"
 
 // Nodo de la lista enlazada para manejar colisiones
-struct NodoHash {
+struct NodoHash
+{
     Estacion estacion;
-    NodoHash* siguiente;
+    NodoHash *siguiente;
 
-    NodoHash(const Estacion& e) : estacion(e), siguiente(nullptr) {}
+    NodoHash(const Estacion &e) : estacion(e), siguiente(nullptr) {}
 };
 
-class TablaHashEstaciones {
+class TablaHashEstaciones
+{
 private:
-    NodoHash** tabla; // Array dinámico de punteros a NodoHash
+    NodoHash **tabla; // Array dinámico de punteros a NodoHash
     int capacidad;    // Tamaña M de la tabla (preferentemente número primo, ej: 17 o 31)
     int cantidad;     // Cantidad actual de estaciones (N)
     int colisiones;   // Contador de colisiones para el README
-    
-    int funcionHash(const string &codigo) const {
+
+    int funcionHash(const string &codigo) const
+    {
         unsigned long hash = 5381;
         for (char c : codigo)
         {
@@ -28,10 +31,11 @@ private:
     }
 
 public:
-    TablaHashEstaciones(int cap = 17){
+    TablaHashEstaciones(int cap = 17)
+    {
         capacidad = cap;
-        cantidad= 0;
-        colisiones= 0;
+        cantidad = 0;
+        colisiones = 0;
 
         tabla = new NodoHash *[capacidad];
         for (int i = 0; i < capacidad; ++i)
@@ -40,7 +44,8 @@ public:
         }
     }
 
-    ~TablaHashEstaciones(){
+    ~TablaHashEstaciones()
+    {
         for (int i = 0; i < capacidad; ++i)
         {
             NodoHash *actual = tabla[i];
@@ -54,11 +59,13 @@ public:
         delete[] tabla;
     }; // Liberar toda la memoria dinámica
 
-    bool insertar(const Estacion& estacion) {
+    bool insertar(const Estacion &estacion)
+    {
         int indice = funcionHash(estacion.getCodigo());
 
         // Si la celda ya tiene elementos, hubo colisión
-        if (tabla[indice] != nullptr){
+        if (tabla[indice] != nullptr)
+        {
             colisiones++;
         };
         NodoHash *actual = tabla[indice];
@@ -128,13 +135,16 @@ public:
         return false;
     };
 
-    double obtenerFactorDeCarga() const {
+    double obtenerFactorDeCarga() const
+    {
         return static_cast<double>(cantidad) / capacidad;
     }
-    int obtenerColisiones(){
+    int obtenerColisiones()
+    {
         return colisiones;
     }
-    int obtenerCantidad(){
+    int obtenerCantidad()
+    {
         return cantidad;
     }
 };
