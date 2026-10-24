@@ -5,10 +5,10 @@
 
 // Nodo de la lista enlazada para manejar colisiones
 struct NodoHash {
-    Estacion estacion;
-    NodoHash* siguiente;
+    Estacion *estacion;
+    NodoHash *siguiente;
 
-    NodoHash(const Estacion& e) : estacion(e), siguiente(nullptr) {}
+    NodoHash(Estacion *e) : estacion(e), siguiente(nullptr) {}
 };
 
 class TablaHashEstaciones {
@@ -54,8 +54,8 @@ public:
         delete[] tabla;
     }; // Liberar toda la memoria dinámica
 
-    bool insertar(const Estacion& estacion) {
-        int indice = funcionHash(estacion.getCodigo());
+    bool insertar(Estacion* estacion) {
+        int indice = funcionHash(estacion->getCodigo());
 
         // Si la celda ya tiene elementos, hubo colisión
         if (tabla[indice] != nullptr){
@@ -66,14 +66,14 @@ public:
         // Verificar si la estación ya existe en la lista
         while (actual != nullptr)
         {
-            if (actual->estacion.getCodigo() == estacion.getCodigo())
+            if (actual->estacion->getCodigo() == estacion->getCodigo())
             {
                 return false; // Código duplicado, no se inserta
             }
             actual = actual->siguiente;
         }
         // Insertar al inicio de la lista enlazada (O(1))
-        NodoHash *nuevoNodo = new NodoHash(estacion);
+        NodoHash *nuevoNodo = new NodoHash (estacion);
         nuevoNodo->siguiente = tabla[indice];
         tabla[indice] = nuevoNodo;
         cantidad++;
@@ -81,16 +81,16 @@ public:
         return true;
     }
 
-    Estacion *buscar(const string &codigo)
+    Estacion *buscar( string &codigo)
     {
         int indice = funcionHash(codigo);
         NodoHash *actual = tabla[indice];
 
         while (actual != nullptr)
         {
-            if (actual->estacion.getCodigo() == codigo)
+            if (actual->estacion->getCodigo() == codigo)
             {
-                return &(actual->estacion); // Retorna puntero a la estación dentro del nodo
+                return (actual->estacion); // Retorna puntero a la estación dentro del nodo
             }
             actual = actual->siguiente;
         }
@@ -105,22 +105,21 @@ public:
 
         while (actual != nullptr)
         {
-            if (actual->estacion.getCodigo() == codigo)
+            if (actual->estacion->getCodigo() == codigo)
             {
                 if (anterior == nullptr)
                 {
-                    // Es el primer nodo de la lista
+                    //es el primer nodo de la lista
                     tabla[indice] = actual->siguiente;
                 }
                 else
                 {
-                    // Está en el medio o al final
+                    //esta en el medio o al final,ejemplo,si es el 2do el que borramos,el 3ro pasa a ser el 2do del primero.
                     anterior->siguiente = actual->siguiente;
                 }
-
                 delete actual;
                 cantidad--;
-                return true; // Eliminación exitosa
+                return true;
             }
             anterior = actual;
             actual = actual->siguiente;
