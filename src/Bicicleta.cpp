@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 using namespace std;
-#include "Bicicleta.h"
+#include "bicicleta.h"
 
 class Bicicleta
 {
@@ -13,7 +13,7 @@ private:
     int kilometros;
 
 public:
-    Bicicleta::Bicicleta(int biciId, const string& codigoEstacion, const string& tipo, const string& estado, int kilometros)
+    Bicicleta::Bicicleta(int biciId, const string &codigoEstacion, const string &tipo, const string &estado, int kilometros)
     {
         this->id = biciId;
         this->codigoEstacion = codigoEstacion;
@@ -22,34 +22,43 @@ public:
         this->kilometros = kilometros;
     }
 
-    int Bicicleta::getId(){
+    int Bicicleta::getId()
+    {
         return id;
     }
-    string Bicicleta::getCodigoEstacion(){
+    string Bicicleta::getCodigoEstacion()
+    {
         return codigoEstacion;
     }
-    string Bicicleta::getTipo(){
+    string Bicicleta::getTipo()
+    {
         return tipo;
     }
-    string Bicicleta::getEstado(){
+    string Bicicleta::getEstado()
+    {
         return estado;
     }
 
-    bool Bicicleta::estaDisponible(){
+    bool Bicicleta::estaDisponible()
+    {
         return estado == "OK";
     }
 
-    int Bicicleta::kilometraje(){
+    int Bicicleta::kilometraje()
+    {
         return kilometros;
     }
 
-    void Bicicleta::setEstado(const string& nuevoEstado){
+    void Bicicleta::setEstado(const string &nuevoEstado)
+    {
         estado = nuevoEstado;
     }
-    void Bicicleta::setCodigoEstacion(const string& nuevoCodigo){
+    void Bicicleta::setCodigoEstacion(const string &nuevoCodigo)
+    {
         codigoEstacion = nuevoCodigo;
     }
-    void Bicicleta::agregarKilometros(int km){
+    void Bicicleta::agregarKilometros(int km)
+    {
         kilometros += km;
     }
 };
