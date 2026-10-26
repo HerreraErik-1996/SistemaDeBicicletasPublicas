@@ -1,4 +1,6 @@
 #include "../include/Sistema.h"
+#include <fstream>
+using namespace std;
 
 Sistema::Sistema()
 {
@@ -60,14 +62,14 @@ bool Sistema::cargarCiclovias()
 void Sistema::mostrarMenu() const
 {
     cout << "\n===========================================\n";
-    cout << "    SISTEMA DE BICICLETAS PÚBLICAS (TP)    \n";
+    cout << "    SISTEMA DE BICICLETAS PUBLICAS    \n";
     cout << "===========================================\n";
-    cout << "1. Mostrar Grafo de estaciones / ciclovías\n";
+    cout << "1. Mostrar Grafo de estaciones / ciclovias\n";
     cout << "2. Listar estaciones ordenadas (Anclajes / Bicis)\n";
-    cout << "3. Alerta: Estaciones con < 20% de ocupación\n";
+    cout << "3. Listar estaciones con menos del 20% de ocupacion\n";
     cout << "0. Salir\n";
     cout << "-------------------------------------------\n";
-    cout << "Ingrese una opción: ";
+    cout << "Ingrese una opcion: ";
 }
 
 void Sistema::ejecutarListadoOrdenado()
@@ -76,7 +78,7 @@ void Sistema::ejecutarListadoOrdenado()
     cout << "\nSeleccione el criterio de ordenamiento:\n";
     cout << "0. Capacidad de anclajes (mayor a menor)\n";
     cout << "1. Bicicletas disponibles (mayor a menor)\n";
-    cout << "Opción: ";
+    cout << "Opcion: ";
     cin >> opcion;
 
     if (opcion == 0 || opcion == 1)
@@ -85,11 +87,11 @@ void Sistema::ejecutarListadoOrdenado()
     }
     else
     {
-        cout << "Opción no válida.\n";
+        cout << "Opcion no valida.\n";
     }
 }
 
-void Sistema::ejecutarAlertaOcupacion()
+void Sistema::ejecutarListarPorOcupacion()
 {
     redEstaciones.listarEstacionesBajaOcupacion();
 }
@@ -104,7 +106,7 @@ void Sistema::ejecutar()
         return;
     }
 
-    cout << "¡Archivos cargados con éxito!\n";
+    cout << "Archivos cargados con exito\n";
 
     int opcion = -1;
 
@@ -114,7 +116,7 @@ void Sistema::ejecutar()
 
         if (!(cin >> opcion))
         {
-            cout << "Entrada inválida. Ingrese un número.\n";
+            cout << "Entrada invalida. Ingrese un numero.\n";
             cin.clear();
             cin.ignore(10000, '\n');
             continue;
@@ -123,20 +125,20 @@ void Sistema::ejecutar()
         switch (opcion)
         {
         case 1:
-            cout << "\n--- GRAFO DE ESTACIONES Y CICLOVÍAS ---\n";
+            cout << "\n--- GRAFO DE ESTACIONES Y CICLOVIAS ---\n";
             redEstaciones.mostrar();
             break;
         case 2:
             ejecutarListadoOrdenado();
             break;
         case 3:
-            ejecutarAlertaOcupacion();
+            ejecutarListarPorOcupacion();
             break;
         case 0:
             cout << "\nSaliendo del programa...\n";
             break;
         default:
-            cout << "\nOpción inválida. Intente de nuevo.\n";
+            cout << "\nOpción invalida. Intente de nuevo.\n";
             break;
         }
 

@@ -225,7 +225,7 @@ public:
 
         bool hayEstacionesCriticas = false;
 
-        cout << "\n=== ESTACIONES CON MENOS DEL 20% DE OCUPACIÓN ===\n";
+        cout << "\n=== ESTACIONES CON MENOS DEL 20% DE OCUPACION ===\n";
 
         for (int i = 0; i < this->cantidadVertices; i++)
         {

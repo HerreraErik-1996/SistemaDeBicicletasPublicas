@@ -4,12 +4,12 @@
 #include "bicicleta.h"
 using namespace std;
 
-class Arbol
+class ArbolBicicletas
 {
 private:
     struct NodoBici
     {
-        int dato;
+        Bicicleta dato;
         NodoBici *izquierdo;
         NodoBici *derecho;
     };

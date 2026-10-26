@@ -6,8 +6,6 @@
 #include "grafo.h"
 #include "TablaHashEstacion.h"
 
-using namespace std;
-
 class Sistema
 {
 private:
@@ -22,7 +20,7 @@ private:
     // Métodos privados para las opciones del menú
     void mostrarMenu() const;
     void ejecutarListadoOrdenado();
-    void ejecutarAlertaOcupacion();
+    void ejecutarListarPorOcupacion();
 
 public:
     Sistema();

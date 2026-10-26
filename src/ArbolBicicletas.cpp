@@ -1,4 +1,5 @@
 #include "bicicleta.h"
+#include "ArbolBicicletas.h"
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -25,22 +26,19 @@ void ArbolBicicletas::destruirRec(NodoBici *nodo)
 }
 
 // Inserción en el Árbol Binario de Búsqueda ordenado por biciId
-NodoBici *ArbolBicicletas::insertarRec(NodoBici *nodo, const Bicicleta &bici)
+ArbolBicicletas::NodoBici *ArbolBicicletas::insertarRec(NodoBici *nodo, const Bicicleta &bici)
 {
     if (nodo == nullptr)
     {
-        NodoBici *nuevo = new NodoBici;
-        nuevo->datos = bici;
-        nuevo->izquierdo = nullptr;
-        nuevo->derecho = nullptr;
+        NodoBici *nuevo = new NodoBici{bici,nullptr,nullptr};
         return nuevo;
     }
 
-    if (bici.biciId < nodo->datos.biciId)
+    if (bici.getId() < nodo->dato.getId())
     {
         nodo->izquierdo = insertarRec(nodo->izquierdo, bici);
     }
-    else if (bici.biciId > nodo->datos.biciId)
+    else if (bici.getId() > nodo->dato.getId())
     {
         nodo->derecho = insertarRec(nodo->derecho, bici);
     }
@@ -63,9 +61,14 @@ void ArbolBicicletas::cargarDesdeArchivo(const string &rutaArchivo)
         return;
     }
 
-    Bicicleta b;
-    while (archivo >> b.biciId >> b.codigoEstacion >> b.tipo >> b.estado >> b.kilometros)
+    int biciId;
+    string codigoEstacion;
+    string tipo;
+    string estado;
+    int kilometros;
+    while (archivo >> biciId >> codigoEstacion >> tipo >> estado >> kilometros)
     {
+        Bicicleta b(biciId, codigoEstacion, tipo, estado, kilometros);
         insertar(b);
     }
 
@@ -81,13 +84,12 @@ void ArbolBicicletas::listarMasDeXKmRec(NodoBici *nodo, int limiteKm, bool &seEn
     // Recorrido inorder (visita subárbol izq, nodo actual, subárbol der)
     listarMasDeXKmRec(nodo->izquierdo, limiteKm, seEncontraron);
 
-    if (nodo->datos.kilometros > limiteKm)
-    {
-        cout << "- Bici ID: " << nodo->datos.biciId
-        << " | Estacion: " << nodo->datos.codigoEstacion
-        << " | Tipo: " << nodo->datos.tipo
-        << " | Kilometros: " << nodo->datos.kilometros << " km\n";
-        << " | Estado: " << nodo->datos.estado
+    if (nodo->dato.kilometraje() > limiteKm){
+        cout << "- Bici ID: " << nodo->dato.getId()
+        << " | Estacion: " << nodo->dato.getCodigoEstacion()
+        << " | Tipo: " << nodo->dato.getTipo()
+        << " | Kilometros: " << nodo->dato.kilometraje() << " km\n"
+        << " | Estado: " << nodo->dato.getEstado();
         seEncontraron = true;
     }
 
