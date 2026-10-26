@@ -1,7 +1,6 @@
-#include "bicicleta.h"
-#include "ArbolBicicletas.h"
-#include <iostream>
+#include "../include/ArbolBicicletas.h"
 #include <fstream>
+
 using namespace std;
 
 ArbolBicicletas::ArbolBicicletas()
@@ -9,7 +8,6 @@ ArbolBicicletas::ArbolBicicletas()
     raiz = nullptr;
 }
 
-// Destructor con recorrido postorder (liberación estricta exigida por consigna)
 ArbolBicicletas::~ArbolBicicletas()
 {
     destruirRec(raiz);
@@ -21,17 +19,16 @@ void ArbolBicicletas::destruirRec(NodoBici *nodo)
     {
         destruirRec(nodo->izquierdo);
         destruirRec(nodo->derecho);
-        delete nodo; // Libera nodo por nodo
+        delete nodo;
     }
 }
 
-// Inserción en el Árbol Binario de Búsqueda ordenado por biciId
+// 1. Insertar en ABB
 ArbolBicicletas::NodoBici *ArbolBicicletas::insertarRec(NodoBici *nodo, const Bicicleta &bici)
 {
     if (nodo == nullptr)
     {
-        NodoBici *nuevo = new NodoBici{bici,nullptr,nullptr};
-        return nuevo;
+        return new NodoBici{bici, nullptr, nullptr};
     }
 
     if (bici.getId() < nodo->dato.getId())
@@ -51,7 +48,98 @@ void ArbolBicicletas::insertar(const Bicicleta &bici)
     raiz = insertarRec(raiz, bici);
 }
 
-// Lectura de bicicletas.txt
+// 2. Buscar por ID y mostrar datos
+ArbolBicicletas::NodoBici *ArbolBicicletas::buscarRec(NodoBici *nodo, int id) const
+{
+    if (nodo == nullptr || nodo->dato.getId() == id)
+    {
+        return nodo;
+    }
+
+    if (id < nodo->dato.getId())
+    {
+        return buscarRec(nodo->izquierdo, id);
+    }
+    return buscarRec(nodo->derecho, id);
+}
+
+bool ArbolBicicletas::buscarPorId(int id) const
+{
+    NodoBici *resultado = buscarRec(raiz, id);
+    if (resultado != nullptr)
+    {
+        cout << "\n--- BICICLETA ENCONTRADA ---\n";
+        cout << "ID: " << resultado->dato.getId()
+             << " | Estacion: " << resultado->dato.getCodigoEstacion()
+             << " | Tipo: " << resultado->dato.getTipo()
+             << " | Estado: " << resultado->dato.getEstado()
+             << " | KM: " << resultado->dato.kilometraje() << "\n";
+        return true;
+    }
+    cout << "\nBicicleta con ID " << id << " no encontrada en el sistema.\n";
+    return false;
+}
+
+// 3. Listar todas las bicicletas ordenadas por ID (Inorder)
+void ArbolBicicletas::inorderRec(NodoBici *nodo) const
+{
+    if (nodo == nullptr)
+        return;
+
+    inorderRec(nodo->izquierdo);
+    cout << "ID: " << nodo->dato.getId()
+         << " | Estacion: " << nodo->dato.getCodigoEstacion()
+         << " | Tipo: " << nodo->dato.getTipo()
+         << " | Estado: " << nodo->dato.getEstado()
+         << " | KM: " << nodo->dato.kilometraje() << "\n";
+    inorderRec(nodo->derecho);
+}
+
+void ArbolBicicletas::listarInorder() const
+{
+    if (raiz == nullptr)
+    {
+        cout << "El arbol de bicicletas esta vacio.\n";
+        return;
+    }
+    cout << "\n--- LISTADO DE BICICLETAS (INORDER) ---\n";
+    inorderRec(raiz);
+}
+
+// 4. Contar cuantas bicicletas averiadas hay
+int ArbolBicicletas::contarAveriadasRec(NodoBici *nodo) const
+{
+    if (nodo == nullptr)
+        return 0;
+
+    int averiadaActual = (nodo->dato.getEstado() == "Averiada" || nodo->dato.getEstado() == "averiada") ? 1 : 0;
+
+    return averiadaActual + contarAveriadasRec(nodo->izquierdo) + contarAveriadasRec(nodo->derecho);
+}
+
+int ArbolBicicletas::contarAveriadas() const
+{
+    return contarAveriadasRec(raiz);
+}
+
+// 5. Calcular la altura del árbol
+int ArbolBicicletas::calcularAlturaRec(NodoBici *nodo) const
+{
+    if (nodo == nullptr)
+        return 0; // O -1 si consideras altura por aristas en lugar de nodos
+
+    int altIzq = calcularAlturaRec(nodo->izquierdo);
+    int altDer = calcularAlturaRec(nodo->derecho);
+
+    return 1 + (altIzq > altDer ? altIzq : altDer);
+}
+
+int ArbolBicicletas::calcularAltura() const
+{
+    return calcularAlturaRec(raiz);
+}
+
+// Carga desde archivo
 void ArbolBicicletas::cargarDesdeArchivo(const string &rutaArchivo)
 {
     ifstream archivo(rutaArchivo);
@@ -62,9 +150,7 @@ void ArbolBicicletas::cargarDesdeArchivo(const string &rutaArchivo)
     }
 
     int biciId;
-    string codigoEstacion;
-    string tipo;
-    string estado;
+    string codigoEstacion, tipo, estado;
     int kilometros;
     while (archivo >> biciId >> codigoEstacion >> tipo >> estado >> kilometros)
     {
@@ -75,33 +161,31 @@ void ArbolBicicletas::cargarDesdeArchivo(const string &rutaArchivo)
     archivo.close();
 }
 
-// Función auxiliar para recorrer todo el árbol y verificar el kilometraje
-void ArbolBicicletas::listarMasDeXKmRec(NodoBici *nodo, int limiteKm, bool &seEncontraron)
+// B.3 Filtro por Kilómetros
+void ArbolBicicletas::listarMasDeXKmRec(NodoBici *nodo, int limiteKm, bool &seEncontraron) const
 {
     if (nodo == nullptr)
         return;
 
-    // Recorrido inorder (visita subárbol izq, nodo actual, subárbol der)
     listarMasDeXKmRec(nodo->izquierdo, limiteKm, seEncontraron);
 
-    if (nodo->dato.kilometraje() > limiteKm){
+    if (nodo->dato.kilometraje() > limiteKm)
+    {
         cout << "- Bici ID: " << nodo->dato.getId()
-        << " | Estacion: " << nodo->dato.getCodigoEstacion()
-        << " | Tipo: " << nodo->dato.getTipo()
-        << " | Kilometros: " << nodo->dato.kilometraje() << " km\n"
-        << " | Estado: " << nodo->dato.getEstado();
+             << " | Estacion: " << nodo->dato.getCodigoEstacion()
+             << " | Tipo: " << nodo->dato.getTipo()
+             << " | Kilometros: " << nodo->dato.kilometraje() << " km"
+             << " | Estado: " << nodo->dato.getEstado() << "\n";
         seEncontraron = true;
     }
 
     listarMasDeXKmRec(nodo->derecho, limiteKm, seEncontraron);
 }
 
-// Punto B.3: Método público que llama el menú
-void ArbolBicicletas::listarBicicletasMasDeXKm(int limiteKm)
+void ArbolBicicletas::listarBicicletasMasDeXKm(int limiteKm) const
 {
     bool seEncontraron = false;
-
-    cout << "\n--- BICICLETAS CON MÁS DE " << limiteKm << " KM (PARA REVISIÓN) ---\n";
+    cout << "\n--- BICICLETAS CON MÁS DE " << limiteKm << " KM ---\n";
     listarMasDeXKmRec(raiz, limiteKm, seEncontraron);
 
     if (!seEncontraron)

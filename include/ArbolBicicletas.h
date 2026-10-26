@@ -1,7 +1,9 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <algorithm> // Para std::max en la altura
 #include "bicicleta.h"
+
 using namespace std;
 
 class ArbolBicicletas
@@ -16,19 +18,28 @@ private:
 
     NodoBici *raiz;
 
-    // Métodos privados auxiliares recursivos
-    NodoBici *insertarRec(NodoBici * nodo, const Bicicleta &bici);
-    void listarMasDeXKmRec(NodoBici * nodo, int limiteKm, bool &seEncontraron);
-    void destruirRec(NodoBici * nodo); // Liberación postorder
+    // Métodos auxiliares recursivos
+    NodoBici *insertarRec(NodoBici *nodo, const Bicicleta &bici);
+    NodoBici *buscarRec(NodoBici *nodo, int id) const;
+    void inorderRec(NodoBici *nodo) const;
+    int contarAveriadasRec(NodoBici *nodo) const;
+    int calcularAlturaRec(NodoBici *nodo) const;
+    void listarMasDeXKmRec(NodoBici *nodo, int limiteKm, bool &seEncontraron) const;
+    void destruirRec(NodoBici *nodo); // Postorder
 
 public:
     ArbolBicicletas();
-    
     ~ArbolBicicletas();
 
-    void insertar(const Bicicleta &bici);
     void cargarDesdeArchivo(const string &rutaArchivo);
+    void insertar(const Bicicleta &bici);
 
-    // Punto B.3: Listar bicicletas con más de X kilómetros
-    void listarBicicletasMasDeXKm(int limiteKm);
+    // Métodos requeridos por la consigna C
+    bool buscarPorId(int id) const;
+    void listarInorder() const;
+    int contarAveriadas() const;
+    int calcularAltura() const;
+
+    // Punto B.3 previo
+    void listarBicicletasMasDeXKm(int limiteKm) const;
 };
