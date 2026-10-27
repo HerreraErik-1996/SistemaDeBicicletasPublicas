@@ -28,6 +28,16 @@ void Sistema::pausar() const
     cin.get();
 }
 
+string Sistema::uppercase(string *texto)
+{
+    for (char &letra : *texto)
+    {
+        letra = toupper(static_cast<unsigned char>(letra));
+    }
+
+    return *texto;
+}
+
 // ---------------------------------------------------------------------
 // Carga de Archivos
 // ---------------------------------------------------------------------
@@ -106,7 +116,7 @@ void Sistema::menuEstaciones()
     {
         limpiarPantalla();
         cout << "===========================================\n";
-        cout << "   MÓDULO A: GESTIÓN DE ESTACIONES Y RED   \n";
+        cout << "   MODULO A: GESTION DE ESTACIONES Y RED   \n";
         cout << "===========================================\n";
         cout << "1. Mostrar Grafo de estaciones / ciclovias\n";
         cout << "2. Listar estaciones ordenadas (Anclajes / Bicis)\n";
@@ -145,7 +155,7 @@ void Sistema::menuEstaciones()
             string cod;
             cout << "Ingrese el codigo de la estacion a buscar: ";
             cin >> cod;
-            Estacion *est = tablaEstaciones.buscar(cod);
+            Estacion *est = tablaEstaciones.buscar(uppercase(&cod));
             if (est != nullptr)
             {
                 cout << "\n--- ESTACION ENCONTRADA EN TABLA HASH ---\n";
@@ -407,7 +417,7 @@ void Sistema::ejecutar()
     {
         limpiarPantalla();
         cout << "===========================================\n";
-        cout << "    SISTEMA DE BICICLETAS PÚBLICAS (C++)   \n";
+        cout << "    SISTEMA DE BICICLETAS PUBLICAS   \n";
         cout << "===========================================\n";
         cout << "1. Gestion de Estaciones y Red (Modulo A)\n";
         cout << "2. Viajes, Espera y Taller (Modulo B)\n";

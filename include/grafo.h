@@ -33,7 +33,7 @@ public:
     void mostrar();
     void listarEstacionesOrdenadas(int tipoListado);
     void listarEstacionesBajaOcupacion();
-    void BFS(const std::string &origen, const std::string &origen);
+    void BFS(const std::string &origen, const std::string &destino);
 
     Grafo(const Grafo &) = delete;
     Grafo &operator=(const Grafo &) = delete;

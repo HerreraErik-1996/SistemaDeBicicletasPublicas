@@ -11,6 +11,17 @@ Grafo::Grafo()
     capacidadVertices = 0;
     vertices = nullptr;
 }
+int Grafo::buscarId(const string &codigo)
+{
+    for (int i = 0; i < cantidadVertices; i++)
+    {
+        if (vertices[i].estacion->getCodigo() == codigo)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
 
 void Grafo::agregarEstacion(string codigo, string nombre, string barrio, int capacidad, int disponibles)
 {

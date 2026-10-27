@@ -86,7 +86,7 @@ public:
         return true;
     }
 
-    Estacion *buscar( std::string &codigo)
+    Estacion *buscar(const std::string &codigo)
     {
         int indice = funcionHash(codigo);
         NodoHash *actual = tabla[indice];

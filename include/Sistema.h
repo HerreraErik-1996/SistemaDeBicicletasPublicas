@@ -36,9 +36,9 @@ private:
     // Acciones auxiliares
     void ejecutarListadoOrdenado();
     void ejecutarListarPorOcupacion();
+    string uppercase(string *texto);
 
-public:
-    Sistema();
+    public : Sistema();
     ~Sistema();
 
     void ejecutar();
