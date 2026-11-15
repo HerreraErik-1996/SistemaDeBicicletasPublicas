@@ -1,4 +1,5 @@
-#include "../include/Sistema.h"
+#include "Sistema.h"
+#include <fstream>
 
 Sistema::Sistema()
 {

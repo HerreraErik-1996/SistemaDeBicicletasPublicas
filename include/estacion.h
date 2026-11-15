@@ -27,7 +27,7 @@ public:
 
     bool agregarBici(Bicicleta *bici);
     void mostrarInfo() const;
-    string getCodigo() const;
+    std::string getCodigo() const;
     ~Estacion();
     Estacion &operator=(const Estacion &) = delete;
 };
