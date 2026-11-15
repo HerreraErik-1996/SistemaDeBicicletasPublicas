@@ -19,7 +19,7 @@ private:
     int cantidad;     // Cantidad actual de estaciones (N)
     int colisiones;   // Contador de colisiones para el README
 
-    int funcionHash(const string &codigo) const
+    int funcionHash(const std::string &codigo) const
     {
         unsigned long hash = 5381;
         for (char c : codigo)
@@ -86,7 +86,7 @@ public:
         return true;
     }
 
-    Estacion *buscar( string &codigo)
+    Estacion *buscar(const std::string &codigo)
     {
         int indice = funcionHash(codigo);
         NodoHash *actual = tabla[indice];
@@ -102,7 +102,7 @@ public:
         return nullptr; // No encontrada
     };
 
-    bool eliminar(const string &codigo)
+    bool eliminar(const std::string &codigo)
     {
         int indice = funcionHash(codigo);
         NodoHash *actual = tabla[indice];
@@ -136,11 +136,11 @@ public:
     {
         return static_cast<double>(cantidad) / capacidad;
     }
-    int obtenerColisiones()
+    int obtenerColisiones() const
     {
         return colisiones;
     }
-    int obtenerCantidad()
+    int obtenerCantidad() const
     {
         return cantidad;
     }

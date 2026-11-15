@@ -5,29 +5,41 @@
 
 #include "grafo.h"
 #include "TablaHashEstacion.h"
-
-using namespace std;
+#include "ArbolBicicletas.h"
+#include "viaje.h"
+#include "taller.h"
 
 class Sistema
 {
 private:
     Grafo redEstaciones;
-    // ArbolBicicletas arbolBicis;   // Descomentar cuando lo integres
-    // ListaViajes listaViajes;       // Descomentar cuando lo integres
+    TablaHashEstaciones tablaEstaciones;
+    ArbolBicicletas arbolBicis;
+    ListaViajes listaViajes;
+    MinHeapTaller tallerReparaciones;
 
-    // Métodos privados auxiliares de carga de archivos
+    // Métodos de carga
     bool cargarEstaciones();
     bool cargarCiclovias();
+    bool cargarViajes();
+    bool cargarBicicletas();
 
-    // Métodos privados para las opciones del menú
-    void mostrarMenu() const;
+    // Auxiliares de consola
+    void limpiarPantalla() const;
+    void pausar() const;
+
+    // Submenús modulares
+    void menuEstaciones();
+    void menuViajesYColas();
+    void menuRegistroBicicletas();
+
+    // Acciones auxiliares
     void ejecutarListadoOrdenado();
-    void ejecutarAlertaOcupacion();
+    void ejecutarListarPorOcupacion();
+    string uppercase(string *texto);
 
-public:
-    Sistema();
+    public : Sistema();
     ~Sistema();
 
-    // Punto de entrada principal
     void ejecutar();
 };

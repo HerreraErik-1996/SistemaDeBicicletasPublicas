@@ -27,8 +27,8 @@ public:
             primero = nuevo;
             ultimo = nuevo;
         }else{
+            ultimo->siguiente = nuevo;
             ultimo = nuevo;
-            ultimo->siguiente = nullptr;
         }
     }
     // elimina el primer elemento de la cola
