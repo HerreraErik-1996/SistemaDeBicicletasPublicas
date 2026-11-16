@@ -1,6 +1,6 @@
 #include <string>
 #include <iostream>
-#include "grafo.h"
+#include "Grafo.h"
 #include "Cola.h"
 
 using namespace std;
@@ -52,8 +52,9 @@ void Grafo::agregarEstacion(string codigo, string nombre, string barrio, int cap
         vertices = nuevosVertices;
         capacidadVertices = nuevaCap;
     }
-    Estacion *nuevaEstacion = new Estacion(codigo, nombre, barrio, capacidad, disponibles);
 
+    Estacion *nuevaEstacion = new Estacion(codigo, nombre, barrio, capacidad, disponibles);
+    
     vertices[cantidadVertices].estacion = nuevaEstacion;
     vertices[cantidadVertices].adyacentes = nullptr;
     cantidadVertices++;

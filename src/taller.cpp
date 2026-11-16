@@ -141,7 +141,7 @@ Bicicleta *MinHeapTaller::extraerMasUrgente()
     masUrgente->setEstado("OK");
 
     cout << "Bicicleta ID " << masUrgente->getId() << " (" << masUrgente->getTipo()
-         << ") reparada y lista para reasignar.\n";
+         << ") reparada.\n";
 
     return masUrgente;
 }

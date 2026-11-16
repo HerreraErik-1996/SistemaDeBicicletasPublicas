@@ -102,6 +102,8 @@ bool Sistema::cargarViajes()
 bool Sistema::cargarBicicletas()
 {
     arbolBicis.cargarDesdeArchivo("data/bicicletas.txt");
+    arbolBicis.asignarAEstaciones(tablaEstaciones);
+
     return true;
 }
 
@@ -169,9 +171,21 @@ void Sistema::menuEstaciones()
             break;
         }
         case 5:
-            cout << "[En desarrollo] Algoritmo BFS en proceso de implementacion.\n";
+        {
+            string origen;
+            string destino;
+
+            cout << "Ingrese el codigo de la estacion origen: ";
+            cin >> origen;
+
+            cout << "Ingrese el codigo de la estacion destino: ";
+            cin >> destino;
+
+            redEstaciones.BFS(origen,destino);
+
             pausar();
             break;
+        }
         case 0:
             break;
         default:
@@ -281,7 +295,7 @@ void Sistema::menuViajesYColas()
             cout << "Prioridad (1-Alta, 2-Media, 3-Baja): ";
             cin >> prio;
 
-            Bicicleta *b = new Bicicleta(idBici, "Taller", tipo, "Averiada", 0);
+            Bicicleta *b = arbolBicis.obtenerBicicleta(idBici);
             tallerReparaciones.insertarBicicleta(b, prio);
             pausar();
             break;
@@ -401,15 +415,11 @@ void Sistema::ejecutarListarPorOcupacion()
 void Sistema::ejecutar()
 {
     limpiarPantalla();
-    cout << "Cargando datos del sistema...\n";
 
     cargarEstaciones();
+    cargarBicicletas();
     cargarCiclovias();
     cargarViajes();
-    cargarBicicletas();
-
-    cout << "Archivos cargados con exito.\n";
-    pausar();
 
     int opcion = -1;
 

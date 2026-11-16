@@ -17,6 +17,7 @@ Estacion::Estacion(string codigo, string nombre, string barrio, int capAnclaje, 
     // Inicialización de la cola de espera vacía
     this->frenteCola = nullptr;
     this->finCola = nullptr;
+
 }
 
 int Estacion::getCapacidad() const

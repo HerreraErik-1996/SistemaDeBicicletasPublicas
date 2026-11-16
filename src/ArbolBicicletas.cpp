@@ -193,3 +193,43 @@ void ArbolBicicletas::listarBicicletasMasDeXKm(int limiteKm) const
         cout << "No se encontraron bicicletas que superen los " << limiteKm << " km.\n";
     }
 }
+
+Bicicleta *ArbolBicicletas::obtenerBicicleta(int idBici)
+{
+    NodoBici *nodoEncontrado = buscarRec(raiz, idBici);
+
+    if (nodoEncontrado != nullptr)
+    {
+        return &(nodoEncontrado->dato); // Devuelve la dirección de memoria de la instancia real
+    }
+
+    return nullptr; // Retorna nullptr si el ID no existe en el árbol
+}
+
+void ArbolBicicletas::asignarAEstacionesRec(NodoBici *nodo, TablaHashEstaciones &tabla)
+{
+    if (nodo == nullptr)
+        return;
+
+    asignarAEstacionesRec(nodo->izquierdo, tabla);
+
+    // 1. Buscamos la estación en la Tabla Hash usando el código que tiene la bici
+    Estacion *est = tabla.buscar(nodo->dato.getCodigoEstacion()); // Ajusta el nombre del método buscar si difiere
+
+    // 2. Si la estación existe, agregamos el puntero de la bicicleta a su lista enlazada
+    if (est != nullptr)
+    {
+        // Opcional: filtrar para no anclar bicicletas que están averiadas o en taller
+        if (nodo->dato.getEstado() != "En Taller" && nodo->dato.getEstado() != "Averiada")
+        {
+            est->agregarBici(&(nodo->dato));
+        }
+    }
+
+    asignarAEstacionesRec(nodo->derecho, tabla);
+}
+
+void ArbolBicicletas::asignarAEstaciones(TablaHashEstaciones &tabla)
+{
+    asignarAEstacionesRec(raiz, tabla);
+}

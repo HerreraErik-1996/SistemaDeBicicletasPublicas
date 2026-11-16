@@ -3,11 +3,11 @@
 #include <fstream>
 #include <string>
 
-#include "grafo.h"
+#include "Grafo.h"
 #include "TablaHashEstacion.h"
 #include "ArbolBicicletas.h"
-#include "viaje.h"
-#include "taller.h"
+#include "Viaje.h"
+#include "Taller.h"
 
 class Sistema
 {
@@ -19,10 +19,10 @@ private:
     MinHeapTaller tallerReparaciones;
 
     // Métodos de carga
+    bool cargarBicicletas();
     bool cargarEstaciones();
     bool cargarCiclovias();
     bool cargarViajes();
-    bool cargarBicicletas();
 
     // Auxiliares de consola
     void limpiarPantalla() const;
