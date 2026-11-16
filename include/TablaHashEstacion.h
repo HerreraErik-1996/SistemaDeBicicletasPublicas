@@ -52,6 +52,7 @@ public:
             {
                 NodoHash *aBorrar = actual;
                 actual = actual->siguiente;
+                delete aBorrar->estacion;
                 delete aBorrar;
             }
         }

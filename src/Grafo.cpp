@@ -22,12 +22,37 @@ int Grafo::buscarId(const string &codigo)
     }
     return -1;
 }
-
-void Grafo::agregarEstacion(string codigo, string nombre, string barrio, int capacidad, int disponibles)
+Grafo::~Grafo()
 {
-    if (buscarId(codigo) != -1)
+    if (vertices != nullptr)
     {
-        cout << "La estacion " << codigo << " ya existe" << endl;
+        // 1. Liberamos los nodos de la lista de adyacencia de cada vértice
+        for (int i = 0; i < cantidadVertices; i++)
+        {
+            Nodo *actual = vertices[i].adyacentes;
+            while (actual != nullptr)
+            {
+                Nodo *aux = actual;
+                actual = actual->siguiente;
+                delete aux;
+            }
+            // NO hacemos delete vertices[i].estacion; porque su dueño es la Tabla Hash
+        }
+
+        // 2. Liberamos el arreglo dinámico de vértices
+        delete[] vertices;
+        vertices = nullptr;
+    }
+}
+
+void Grafo::agregarEstacion(Estacion* est)
+{
+    if (est == nullptr){
+        return;
+    }
+    if (buscarId(est->getCodigo()) != -1)
+    {
+        cout << "La estacion " << est->getCodigo() << " ya existe" << endl;
         return;
     }
     if (cantidadVertices == capacidadVertices)
@@ -52,10 +77,8 @@ void Grafo::agregarEstacion(string codigo, string nombre, string barrio, int cap
         vertices = nuevosVertices;
         capacidadVertices = nuevaCap;
     }
-
-    Estacion *nuevaEstacion = new Estacion(codigo, nombre, barrio, capacidad, disponibles);
     
-    vertices[cantidadVertices].estacion = nuevaEstacion;
+    vertices[cantidadVertices].estacion = est;
     vertices[cantidadVertices].adyacentes = nullptr;
     cantidadVertices++;
 }

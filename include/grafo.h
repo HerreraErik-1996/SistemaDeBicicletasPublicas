@@ -28,7 +28,8 @@ private:
 
 public:
     Grafo();
-    void agregarEstacion(std::string codigo, std::string nombre, std::string barrio, int capacidad, int disponibles);
+    ~Grafo();
+    void agregarEstacion(Estacion *est);
     void agregarArista(const std::string &origen, const std::string &destino);
     void mostrar();
     void listarEstacionesOrdenadas(int tipoListado);

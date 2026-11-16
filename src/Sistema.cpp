@@ -59,14 +59,12 @@ bool Sistema::cargarEstaciones()
 
     while (archivo >> codigo >> nombre >> barrio >> capacidad >> disponibles)
     {
+        Estacion *est = new Estacion(codigo, nombre, barrio, capacidad, 0);
         // 1. Carga en el Grafo (Sección A)
-        redEstaciones.agregarEstacion(codigo, nombre, barrio, capacidad, disponibles);
-
+        redEstaciones.agregarEstacion(est);
         // 2. Carga en la Tabla Hash (Sección A)
-        Estacion *est = new Estacion(codigo, nombre, barrio, capacidad, disponibles);
         tablaEstaciones.insertar(est);
     }
-
     archivo.close();
     return true;
 }
