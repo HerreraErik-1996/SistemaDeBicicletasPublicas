@@ -32,6 +32,7 @@ public:
     void agregarEstacion(Estacion *est);
     void agregarArista(const std::string &origen, const std::string &destino);
     void mostrar();
+    bool quitarEstacion(const std::string &codigo);
     void listarEstacionesOrdenadas(int tipoListado);
     void listarEstacionesBajaOcupacion();
     void BFS(const std::string &origen, const std::string &destino);

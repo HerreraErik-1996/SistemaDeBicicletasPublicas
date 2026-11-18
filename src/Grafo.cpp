@@ -26,7 +26,7 @@ Grafo::~Grafo()
 {
     if (vertices != nullptr)
     {
-        // 1. Liberamos los nodos de la lista de adyacencia de cada vértice
+        // liberamos los nodos de la lista de adyacencia de cada vertice
         for (int i = 0; i < cantidadVertices; i++)
         {
             Nodo *actual = vertices[i].adyacentes;
@@ -142,6 +142,60 @@ void Grafo::mostrar()
         cout << endl;
     }
 };
+
+bool Grafo::quitarEstacion(const string &codigo){
+    int id = buscarId(codigo);
+    if (id == -1){
+        return false;
+    }
+    Nodo *actual = vertices[id].adyacentes;
+    while (actual != nullptr)
+    {
+        Nodo *temp = actual;
+        actual = actual->siguiente;
+        delete temp;
+    }
+    vertices[id].adyacentes = nullptr;
+    //recorremos las demas estaciones para eliminar aristas entrantes hacia id y actualizar los indices del arreglo
+    for (int i = 0; i < cantidadVertices; i++){
+        if(i == id){
+            continue;
+        }
+        Nodo *actual = vertices[i].adyacentes;
+        Nodo *anterior = nullptr;
+        while (actual != nullptr){
+            if (actual->idVertice == id){
+                //borramos la arista que apunta a el id de la estacion eliminada
+                Nodo *aBorrar = actual;
+                if (anterior == nullptr){
+                    vertices[i].adyacentes = actual->siguiente;
+                }else{
+                    anterior->siguiente = actual->siguiente;
+                }
+                actual = actual->siguiente;
+                delete aBorrar;
+            }else{
+                //si apuntaba a una estacion posterior a la borrada, el indice baja en 1
+                if (actual->idVertice > id){
+                    actual->idVertice--;
+                }
+                anterior = actual;
+                actual = actual->siguiente;
+            }
+        }
+    }
+    // compactamos el arreglo vertices y actualizamos id
+    for (int i = id; i < cantidadVertices-1; i++){
+        vertices[i] = vertices[i +1];
+        vertices[i].id = i;
+    }
+    //limpiamos el final
+    vertices[cantidadVertices - 1].estacion = nullptr;
+    vertices[cantidadVertices - 1].adyacentes = nullptr;
+    cantidadVertices --;
+
+    return true;
+}
 
 void Grafo::listarEstacionesOrdenadas(int tipoListado)
 {

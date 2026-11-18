@@ -21,6 +21,8 @@ private:
     // Métodos de carga
     bool cargarBicicletas();
     bool cargarEstaciones();
+    bool registrarNuevaEstacion(const std::string &codigo, const std::string &nombre, const std::string &barrio, int capacidad);
+    bool eliminarEstacion(const std::string &codigo);
     bool cargarCiclovias();
     bool cargarViajes();
     void registrarNuevoViaje(int idViaje, const string &dniUsuario, const string &codOrigen, const string &codDestino, int fecha, int duracionMin, int kmRecorridos);
@@ -39,7 +41,8 @@ private:
     void ejecutarListarPorOcupacion();
     string uppercase(string *texto);
 
-    public : Sistema();
+public :
+    Sistema();
     ~Sistema();
 
     void ejecutar();

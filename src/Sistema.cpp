@@ -69,6 +69,46 @@ bool Sistema::cargarEstaciones()
     return true;
 }
 
+bool Sistema::registrarNuevaEstacion(const string &codigo, const string &nombre, const string &barrio, int capacidad)
+{
+    // verificamos que no exista otra estacion con el mismo codigo
+    if (tablaEstaciones.buscar(codigo) != nullptr)
+    {
+        cout << "Error: Ya existe una estacion con el codigo '" << codigo << "'.\n";
+        return false;
+    }
+
+    if (capacidad <= 0)
+    {
+        cout << "Error: La capacidad debe ser mayor a 0.\n";
+        return false;
+    }
+
+    // creamos la instancia unica en el heap (disponibles = 0 por defecto)
+    Estacion *nuevaEst = new Estacion(codigo, nombre, barrio, capacidad, 0);
+
+    // registramos el mismo puntero en ambas estructuras (propiedad compartida)
+    redEstaciones.agregarEstacion(nuevaEst);
+    tablaEstaciones.insertar(nuevaEst);
+
+    cout << "Estacion '" << nombre << "' [" << codigo << "] agregada correctamente.\n";
+    return true;
+}
+
+bool Sistema::eliminarEstacion(const string &codigo){
+    Estacion *est = tablaEstaciones.buscar(codigo);
+    if ( est == nullptr){
+        cout << "Error: No existe ninguna estacion con el codigo '" << codigo << "'.\n";
+        return false;
+    }
+    //borramos de ambas estructuras(hash y el grafo)
+    tablaEstaciones.eliminar(codigo);
+    redEstaciones.quitarEstacion(codigo);
+    delete est;
+    cout << "Estacion '" << codigo << "' y sus ciclovias asociadas eliminadas correctamente.\n";
+    return true;
+}
+
 bool Sistema::cargarCiclovias()
 {
     ifstream archivo("data/ciclovias.txt");
@@ -143,10 +183,12 @@ void Sistema::menuEstaciones()
         cout << "   MODULO A: GESTION DE ESTACIONES Y RED   \n";
         cout << "===========================================\n";
         cout << "1. Mostrar Grafo de estaciones / ciclovias\n";
-        cout << "2. Listar estaciones ordenadas (Anclajes / Bicis)\n";
-        cout << "3. Listar estaciones con menos del 20% de ocupacion\n";
-        cout << "4. Buscar estacion por codigo (Tabla Hash)\n";
-        cout << "5. Calcular camino mas corto por ciclovias (BFS)\n";
+        cout << "2. Buscar estacion por codigo (Tabla Hash)\n";
+        cout << "3. Agregar nueva estacion (Tabla Hash)\n";
+        cout << "4. Eliminar estacion (Tabla Hash)\n";
+        cout << "5. Listar estaciones ordenadas (Anclajes / Bicis)\n";
+        cout << "6. Listar estaciones con menos del 20% de ocupacion\n";
+        cout << "7. Calcular camino mas corto por ciclovias (BFS)\n";
         cout << "0. Volver al menu principal\n";
         cout << "-------------------------------------------\n";
         cout << "Ingrese una opcion: ";
@@ -166,15 +208,8 @@ void Sistema::menuEstaciones()
             redEstaciones.mostrar();
             pausar();
             break;
+
         case 2:
-            ejecutarListadoOrdenado();
-            pausar();
-            break;
-        case 3:
-            ejecutarListarPorOcupacion();
-            pausar();
-            break;
-        case 4:
         {
             string cod;
             cout << "Ingrese el codigo de la estacion a buscar: ";
@@ -192,7 +227,44 @@ void Sistema::menuEstaciones()
             pausar();
             break;
         }
+        
+        case 3: {
+            string codigo, nombre, barrio;
+            int capacidad;
+            cout << "Codigo de la nueva estacion: ";
+            cin >> codigo;
+            cout << "Nombre (sin espacios o con guion_bajo): ";
+            cin >> nombre;
+            cout << "Barrio: ";
+            cin >> barrio;
+            cout << "Capacidad de anclajes: ";
+            cin >> capacidad;
+            registrarNuevaEstacion(codigo, nombre, barrio, capacidad);
+            pausar();
+            break;
+        }
+
+        case 4: {
+            string codigo;
+            cout << "Codigo de la estacion a borrar: ";
+            cin >> codigo;
+            eliminarEstacion(codigo);
+            pausar();
+            break;
+
+        }
+
         case 5:
+        ejecutarListadoOrdenado();
+        pausar();
+        break;
+        
+        case 6:
+        ejecutarListarPorOcupacion();
+        pausar();
+        break;
+
+        case 7:
         {
             string origen;
             string destino;
@@ -204,7 +276,6 @@ void Sistema::menuEstaciones()
             cin >> destino;
 
             redEstaciones.BFS(origen,destino);
-
             pausar();
             break;
         }
