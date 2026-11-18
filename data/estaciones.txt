@@ -8,3 +8,9 @@ NUN PlazaBalcarce Nunez 30 0
 ALM PlazaAlmagro Almagro 8 0
 BOE ParqueChacabuco Boedo 10 0
 PCA ParqueCentenario Caballito 12 0
+RET Retiro Retiro 35 0
+CON PlazaConstitucion Constitucion 30 0
+FLO PlazaFlores Flores 20 0
+VCR VillaCrespo VillaCrespo 18 0
+PUE PuertoMadero PuertoMadero 22 0
+SAN ParqueLezama SanTelmo 16 0
