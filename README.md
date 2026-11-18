@@ -526,3 +526,10 @@ Bicicleta *MinHeapTaller::extraerMasUrgente()
 - **Altura resultante:** Su altura sería de **5**, porque al ingresarse los elementos de forma ascendente basándose en el `ID` y al no contar con un mecanismo de autobalanceo, cada nuevo nodo se insertará siempre como hijo derecho del anterior. Al final, en lugar de mantener una estructura ramificada de árbol, termina degenerando y comportándose como una **lista enlazada**.
 - **Impacto en el rendimiento:** Esto afecta su rendimiento de la peor manera posible, provocando que la operación _"Buscar bicicleta"_ en el peor de los casos (por ejemplo, buscar la bicicleta con el `ID` más grande) tenga que recorrer la totalidad de los elementos del árbol ($O(N)$).
 - **Comparativa con un árbol balanceado:** Si el árbol estuviese balanceado, por cada nodo visitado se descartaría la mitad de los nodos restantes por recorrer ($O(\log N)$). En el ejemplo de las 5 bicicletas, en un árbol balanceado solo habría que analizar como máximo **3 nodos** en lugar de los **5** del caso degenerado.
+
+### Análisis colisiones de tabla de hash
+
+Luego de ejecutar con los datos de prueba (15 estaciones), obtuvimos los siguientes resultados:
+
+- **Factor de carga**: 0.882353
+- **Colisiones registradas**: 4
