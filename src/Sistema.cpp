@@ -312,8 +312,6 @@ void Sistema::menuViajesYColas()
             string tipo;
             cout << "ID de la bicicleta: ";
             cin >> idBici;
-            cout << "Tipo (Comun / Electrica): ";
-            cin >> tipo;
             cout << "Prioridad (1-Alta, 2-Media, 3-Baja): ";
             cin >> prio;
 
