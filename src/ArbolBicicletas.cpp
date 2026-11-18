@@ -139,8 +139,6 @@ int ArbolBicicletas::calcularAltura() const
     return calcularAlturaRec(raiz);
 }
 
-
-
 // Carga desde archivo
 void ArbolBicicletas::cargarDesdeArchivo(const string &rutaArchivo)
 {
@@ -221,11 +219,7 @@ void ArbolBicicletas::asignarAEstacionesRec(NodoBici *nodo, TablaHashEstaciones 
     // 2. Si la estación existe, agregamos el puntero de la bicicleta a su lista enlazada
     if (est != nullptr)
     {
-        // Opcional: filtrar para no anclar bicicletas que están averiadas o en taller
-        if (nodo->dato.getEstado() != "En Taller" && nodo->dato.getEstado() != "Averiada")
-        {
-            est->agregarBici(&(nodo->dato));
-        }
+        est->agregarBici(&(nodo->dato));
     }
 
     asignarAEstacionesRec(nodo->derecho, tabla);
@@ -236,80 +230,80 @@ void ArbolBicicletas::asignarAEstaciones(TablaHashEstaciones &tabla)
     asignarAEstacionesRec(raiz, tabla);
 }
 
-//Punto.C(Opcional)
+// Punto.C(Opcional)
 ArbolBicicletas::NodoBici *ArbolBicicletas::eliminarRec(
     NodoBici *nodo, int id, bool &eliminado)
 {
-  // no se encontro el nodo
-  if (nodo == nullptr)
-    return nullptr;
+    // no se encontro el nodo
+    if (nodo == nullptr)
+        return nullptr;
 
-  // buscar por izquierda
-  if (id < nodo->dato.getId())
-  {
-    nodo->izquierdo = eliminarRec(
-        nodo->izquierdo, id, eliminado);
-  }
-
-  // buscar por derecha
-  else if (id > nodo->dato.getId())
-  {
-    nodo->derecho = eliminarRec(
-        nodo->derecho, id, eliminado);
-  }
-
-  // encontramos el nodo a eliminar
-  else
-  {
-    eliminado = true;
-
-    // CASO 1 y 2: sin hijo izquierdo
-    if (nodo->izquierdo == nullptr)
+    // buscar por izquierda
+    if (id < nodo->dato.getId())
     {
-      NodoBici *derecho = nodo->derecho;
-      delete nodo;
-      return derecho;
+        nodo->izquierdo = eliminarRec(
+            nodo->izquierdo, id, eliminado);
     }
 
-    // CASO 2: sin hijo derecho
-    if (nodo->derecho == nullptr)
+    // buscar por derecha
+    else if (id > nodo->dato.getId())
     {
-      NodoBici *izquierdo = nodo->izquierdo;
-      delete nodo;
-      return izquierdo;
+        nodo->derecho = eliminarRec(
+            nodo->derecho, id, eliminado);
     }
 
-    // CASO 3: tiene ambos hijos
-    // buscamos el menor del subarbol derecho
-    NodoBici **enlaceSucesor = &nodo->derecho;
-
-    while ((*enlaceSucesor)->izquierdo != nullptr)
+    // encontramos el nodo a eliminar
+    else
     {
-      enlaceSucesor = &((*enlaceSucesor)->izquierdo);
+        eliminado = true;
+
+        // CASO 1 y 2: sin hijo izquierdo
+        if (nodo->izquierdo == nullptr)
+        {
+            NodoBici *derecho = nodo->derecho;
+            delete nodo;
+            return derecho;
+        }
+
+        // CASO 2: sin hijo derecho
+        if (nodo->derecho == nullptr)
+        {
+            NodoBici *izquierdo = nodo->izquierdo;
+            delete nodo;
+            return izquierdo;
+        }
+
+        // CASO 3: tiene ambos hijos
+        // buscamos el menor del subarbol derecho
+        NodoBici **enlaceSucesor = &nodo->derecho;
+
+        while ((*enlaceSucesor)->izquierdo != nullptr)
+        {
+            enlaceSucesor = &((*enlaceSucesor)->izquierdo);
+        }
+
+        NodoBici *sucesor = *enlaceSucesor;
+
+        // desvinculamos el sucesor de su posicion original
+        *enlaceSucesor = sucesor->derecho;
+
+        // reubicamos el sucesor
+        sucesor->izquierdo = nodo->izquierdo;
+        sucesor->derecho = nodo->derecho;
+
+        delete nodo;
+
+        return sucesor;
     }
 
-    NodoBici *sucesor = *enlaceSucesor;
-
-    // desvinculamos el sucesor de su posicion original
-    *enlaceSucesor = sucesor->derecho;
-
-    // reubicamos el sucesor
-    sucesor->izquierdo = nodo->izquierdo;
-    sucesor->derecho = nodo->derecho;
-
-    delete nodo;
-
-    return sucesor;
-  }
-
-  return nodo;
+    return nodo;
 }
 
 bool ArbolBicicletas::eliminar(int id)
 {
-  bool eliminado = false;
+    bool eliminado = false;
 
-  raiz = eliminarRec(raiz, id, eliminado);
+    raiz = eliminarRec(raiz, id, eliminado);
 
-  return eliminado;
+    return eliminado;
 }
