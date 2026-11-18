@@ -6,7 +6,7 @@
 #include "Grafo.h"
 #include "TablaHashEstacion.h"
 #include "ArbolBicicletas.h"
-#include "Viaje.h"
+#include "ListaViaje.h"
 #include "Taller.h"
 
 class Sistema
@@ -23,6 +23,7 @@ private:
     bool cargarEstaciones();
     bool cargarCiclovias();
     bool cargarViajes();
+    void registrarNuevoViaje(int idViaje, const string &dniUsuario, const string &codOrigen, const string &codDestino, int fecha, int duracionMin, int kmRecorridos);
 
     // Auxiliares de consola
     void limpiarPantalla() const;

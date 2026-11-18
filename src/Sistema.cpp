@@ -93,8 +93,32 @@ bool Sistema::cargarCiclovias()
 
 bool Sistema::cargarViajes()
 {
-    listaViajes.cargarDesdeArchivo("data/viajes.txt");
-    return true;
+    return listaViajes.cargarDesdeArchivo("data/viajes.txt");
+}
+void Sistema::registrarNuevoViaje(int idViaje, const string &dniUsuario, const string &codOrigen, const string &codDestino, int fecha, int duracionMin, int kmRecorridos)
+{
+    Estacion *origen = tablaEstaciones.buscar(codOrigen);
+    Estacion *destino = tablaEstaciones.buscar(codDestino);
+
+    if (origen == nullptr || destino == nullptr)
+    {
+        cout << "Error: Estacion de origen o destino invalida.\n";
+        return;
+    }
+
+    Bicicleta *bici = origen->solicitarBicicleta(dniUsuario);
+    if (bici == nullptr)
+    {
+        return; // Usuario encolado en espera
+    }
+
+    bici->setCodigoEstacion(codDestino);
+    bici->agregarKilometros(kmRecorridos);
+
+    destino->devolverBicicleta(bici);
+
+    Viaje nuevoViaje{idViaje, bici->getId(), dniUsuario, codOrigen, codDestino, fecha, duracionMin};
+    listaViajes.agregarViaje(nuevoViaje);
 }
 
 bool Sistema::cargarBicicletas()
@@ -187,7 +211,7 @@ void Sistema::menuEstaciones()
         case 0:
             break;
         default:
-            cout << "Opción invalida.\n";
+            cout << "Opcion invalida.\n";
             pausar();
             break;
         }
@@ -205,7 +229,7 @@ void Sistema::menuViajesYColas()
     {
         limpiarPantalla();
         cout << "===========================================\n";
-        cout << "  MÓDULO B: VIAJES, ESPERA Y TALLER       \n";
+        cout << "  MODULO B: VIAJES, ESPERA Y TALLER       \n";
         cout << "===========================================\n";
         cout << "1. Cantidad de viajes por estacion y rango de fechas\n";
         cout << "2. Buscar viajes por DNI de usuario\n";
@@ -309,7 +333,7 @@ void Sistema::menuViajesYColas()
         case 0:
             break;
         default:
-            cout << "Opción invalida.\n";
+            cout << "Opcion invalida.\n";
             pausar();
             break;
         }
@@ -327,7 +351,7 @@ void Sistema::menuRegistroBicicletas()
     {
         limpiarPantalla();
         cout << "===========================================\n";
-        cout << "  MÓDULO C: REGISTRO DE BICICLETAS (ABB)   \n";
+        cout << "  MODULO C: REGISTRO DE BICICLETAS (ABB)   \n";
         cout << "===========================================\n";
         cout << "1. Listar todas las bicicletas (Inorder)\n";
         cout << "2. Buscar bicicleta por ID\n";
@@ -371,7 +395,7 @@ void Sistema::menuRegistroBicicletas()
         case 0:
             break;
         default:
-            cout << "Opción invalida.\n";
+            cout << "Opcion invalida.\n";
             pausar();
             break;
         }
@@ -457,7 +481,7 @@ void Sistema::ejecutar()
             cout << "\nSaliendo del programa...\n";
             break;
         default:
-            cout << "\nOpción invalida. Intente de nuevo.\n";
+            cout << "\nOpcion invalida. Intente de nuevo.\n";
             pausar();
             break;
         }

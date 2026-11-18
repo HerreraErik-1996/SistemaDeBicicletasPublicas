@@ -47,7 +47,7 @@ public:
     bool estaVaciaCola() const;
 
     // Operaciones del sistema
-    bool solicitarBicicleta(const std::string &dniUsuario);
+    Bicicleta* solicitarBicicleta(const std::string &dniUsuario);
     void devolverBicicleta(Bicicleta *bici);
 
     ~Estacion();

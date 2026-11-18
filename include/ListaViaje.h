@@ -34,7 +34,7 @@ public:
 
     // Carga de datos
     void agregarViaje(const Viaje &nuevoViaje);
-    void cargarDesdeArchivo(const string &rutaArchivo);
+    bool cargarDesdeArchivo(const string &rutaArchivo);
 
     // Funcionalidades asignadas (B.1 y B.2)
     int contarViajesPorEstacionYRango(const string &codigoEstacion, int fechaInicio, int fechaFin);

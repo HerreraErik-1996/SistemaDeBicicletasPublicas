@@ -1,2 +1,3 @@
+viaje_id bici_id dni_usuario estacion_origen estacion_destino fecha duracion_min
 9001 501 30123456 PLZ PAL 20260310 25 
 9002 502 27654321 PAL CAB 20260311 40 

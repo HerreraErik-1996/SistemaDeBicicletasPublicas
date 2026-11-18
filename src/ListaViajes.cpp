@@ -1,4 +1,4 @@
-#include "viaje.h"
+#include "ListaViaje.h"
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -32,22 +32,27 @@ void ListaViajes::agregarViaje(const Viaje &nuevoViaje)
 }
 
 // Lectura del archivo viajes.txt
-void ListaViajes::cargarDesdeArchivo(const string &rutaArchivo)
+bool ListaViajes::cargarDesdeArchivo(const string &rutaArchivo)
 {
     ifstream archivo(rutaArchivo);
     if (!archivo.is_open())
     {
         cout << "Error: No se pudo abrir el archivo " << rutaArchivo << endl;
-        return;
+        return false;
     }
 
-    Viaje v;
+    string encabezado;
+    getline(archivo, encabezado);
+    string dniUsuario, estacionOrigen, estacionDestino ;
+    int viajeId, biciId, fecha, duracionMin;
     // Lee espacio por espacio según el formato del archivo
-    while (archivo >> v.viajeId >> v.biciId >> v.dniUsuario >> v.estacionOrigen >> v.estacionDestino >> v.fecha >> v.duracionMin)
+    while (archivo >> viajeId >> biciId >> dniUsuario >> estacionOrigen >> estacionDestino >> fecha >> duracionMin)
     {
-        agregarViaje(v);
+        Viaje nuevoViaje{viajeId, biciId, dniUsuario, estacionOrigen, estacionDestino, fecha, duracionMin};
+        agregarViaje(nuevoViaje);
     }
     archivo.close();
+    return true;
 }
 
 // Punto B.1: Conteo de viajes en rango de fechas

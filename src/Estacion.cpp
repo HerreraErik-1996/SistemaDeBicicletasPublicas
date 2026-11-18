@@ -107,25 +107,26 @@ string Estacion::desencolarUsuario()
 // Lógica de Retiro y Devolución con Cola de Espera
 // ---------------------------------------------------------------------
 
-bool Estacion::solicitarBicicleta(const string &dniUsuario)
+Bicicleta* Estacion::solicitarBicicleta(const string &dniUsuario)
 {
     // Caso 1: Hay bicicletas disponibles
     if (bicisDisp > 0 && primeraBicicleta != nullptr)
     {
         NodoBicicleta *aux = primeraBicicleta;
+        Bicicleta *biciRetirada = aux->bicicleta;
         primeraBicicleta = primeraBicicleta->siguiente;
         delete aux; // Se retira de la pila local de la estación
         bicisDisp--;
 
         cout << "Bicicleta asignada con exito al usuario DNI: " << dniUsuario << endl;
-        return true;
+        return biciRetirada;
     }
 
     // Caso 2: No hay bicicletas disponibles, se encola al usuario
     encolarUsuario(dniUsuario);
     cout << "Sin bicis disponibles en " << codigo << ". Usuario DNI " << dniUsuario
          << " ingresado a la cola de espera.\n";
-    return false;
+    return nullptr;
 }
 
 void Estacion::devolverBicicleta(Bicicleta *bici)
