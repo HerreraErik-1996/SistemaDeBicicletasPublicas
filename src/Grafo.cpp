@@ -83,7 +83,7 @@ void Grafo::agregarEstacion(Estacion* est)
     cantidadVertices++;
 }
 
-void Grafo::agregarArista(const string &origen, const string &destino)
+bool Grafo::agregarArista(const string &origen, const string &destino)
 {
     int idOrigen = buscarId(origen);
     int idDestino = buscarId(destino);
@@ -91,12 +91,12 @@ void Grafo::agregarArista(const string &origen, const string &destino)
     if (idOrigen == -1 || idDestino == -1)
     {
         cout << "Error: alguna de las estaciones no existe." << endl;
-        return;
+        return false;
     }
     // evita bucle
     if (idOrigen == idDestino)
     {
-        return;
+      return false;
     }
     // evitar aristas duplicadas
     Nodo *actual = vertices[idOrigen].adyacentes;
@@ -104,7 +104,7 @@ void Grafo::agregarArista(const string &origen, const string &destino)
     {
         if (actual->idVertice == idDestino)
         {
-            return;
+            return false;
         }
         actual = actual->siguiente;
     }
@@ -119,6 +119,8 @@ void Grafo::agregarArista(const string &origen, const string &destino)
     nuevo2->idVertice = idOrigen;
     nuevo2->siguiente = vertices[idDestino].adyacentes;
     vertices[idDestino].adyacentes = nuevo2;
+
+    return true;
 };
 
 void Grafo::mostrar()

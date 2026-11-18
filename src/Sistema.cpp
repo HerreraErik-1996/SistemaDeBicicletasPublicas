@@ -92,6 +92,25 @@ bool Sistema::registrarNuevaEstacion(const string &codigo, const string &nombre,
     tablaEstaciones.insertar(nuevaEst);
 
     cout << "Estacion '" << nombre << "' [" << codigo << "] agregada correctamente.\n";
+
+    char respuesta;
+    cout << "Desea conectar la nueva estacion con otra? (S/N): ";
+    cin >> respuesta;
+
+    while (respuesta == 'S' || respuesta == 's')
+    {
+      string codigoDestino;
+
+      cout << "Ingrese el codigo de la estacion destino: ";
+      cin >> codigoDestino;
+
+      uppercase(&codigoDestino);
+
+      redEstaciones.agregarArista(codigo, codigoDestino);
+
+      cout << "Desea agregar otra conexion? (S/N): ";
+      cin >> respuesta;
+    }
     return true;
 }
 
@@ -359,21 +378,7 @@ void Sistema::menuViajesYColas()
         }
         case 4:
         {
-            string codEst, dni;
-            cout << "Ingrese el codigo de la estacion: ";
-            cin >> codEst;
-            Estacion *est = tablaEstaciones.buscar(codEst);
-
-            if (est == nullptr)
-            {
-                cout << "Estacion no encontrada.\n";
-            }
-            else
-            {
-                cout << "Ingrese DNI del usuario: ";
-                cin >> dni;
-                est->solicitarBicicleta(dni);
-            }
+            ejecutarRetirarDevolverBici();
             pausar();
             break;
         }
@@ -499,13 +504,88 @@ void Sistema::ejecutarListarPorOcupacion()
     redEstaciones.listarEstacionesBajaOcupacion();
 }
 
+void Sistema::ejecutarRetirarDevolverBici(){
+
+  int opcion;
+  cout << "1. Retirar bicicleta\n";
+  cout << "2. Devolver bicicleta\n";
+  cout << "0. Volver atras\n";
+  cout << "Ingrese una opcion: ";
+  cin >> opcion;
+  switch (opcion) {
+    case 1:{
+      string codEst, dni;
+    
+      cout << "Codigo de la estacion: ";
+      cin >> codEst;
+    
+      Estacion *est = tablaEstaciones.buscar(uppercase(&codEst));
+    
+      if (est == nullptr)
+      {
+        cout << "Estacion no encontrada.\n";
+        break;
+      }
+    
+      cout << "DNI del usuario: ";
+      cin >> dni;
+    
+      Bicicleta *bici = est->solicitarBicicleta(dni);
+    
+      if (bici != nullptr)
+      {
+        cout << "ID de bicicleta retirada: " << bici->getId() << endl;
+      }
+    
+      break;
+    }
+
+    case 2:{
+      string codEst;
+      int idBici;
+  
+      cout << "Codigo de la estacion de devolucion: ";
+      cin >> codEst;
+    
+      Estacion *est = tablaEstaciones.buscar(uppercase(&codEst));
+    
+      if (est == nullptr)
+      {
+        cout << "Estacion no encontrada.\n";
+        break;
+      }
+    
+      cout << "ID de la bicicleta a devolver: ";
+      cin >> idBici;
+    
+      Bicicleta *bici = arbolBicis.obtenerBicicleta(idBici);
+    
+      if (bici == nullptr)
+      {
+        cout << "Bicicleta no encontrada.\n";
+        break;
+      }
+    
+      est->devolverBicicleta(bici);
+      break;
+    }
+    case 0:
+      break;
+
+    default:
+      cout << "Opcion invalida.\n";
+      break;
+  }
+}
+
+
 // ---------------------------------------------------------------------
 // Menú Principal
 // ---------------------------------------------------------------------
 
 void Sistema::ejecutar()
 {
-    limpiarPantalla();
+    //limpiarPantalla();
 
     cargarEstaciones();
     cargarBicicletas();
@@ -516,7 +596,7 @@ void Sistema::ejecutar()
 
     do
     {
-        limpiarPantalla();
+        //limpiarPantalla();
         cout << "===========================================\n";
         cout << "    SISTEMA DE BICICLETAS PUBLICAS   \n";
         cout << "===========================================\n";

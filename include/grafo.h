@@ -30,7 +30,7 @@ public:
     Grafo();
     ~Grafo();
     void agregarEstacion(Estacion *est);
-    void agregarArista(const std::string &origen, const std::string &destino);
+    bool agregarArista(const std::string &origen, const std::string &destino);
     void mostrar();
     bool quitarEstacion(const std::string &codigo);
     void listarEstacionesOrdenadas(int tipoListado);

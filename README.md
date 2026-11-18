@@ -359,3 +359,9 @@ return nullptr; // 0
 }
 $$T(N) = 3 + 4 + 4 + 2 + 1 + (32\log_2 N + 4) + 2 + 8 + 1 + 1 = 32\log_2 N + 30 $$
 Notación Big O: O(logN)
+
+
+Respuesta de analisis-C:
+Su altura seria de 5 porque al ingresarse ascendentemente basandose en el id,y no autobalancearse, siempre el nuevo nodo seria hijo derecho.Al final en lugar de parecerse a un árbol, termina comportándose como una lista enlazada.
+Afecta su rendimiento de la peor manera, haciendo que "Buscar bicicleta" en el peor de los casos(que sea la de id mas grande) tenga que recorrer todos los elementos del árbol.
+Si estuviese balanceado, por cada nodo recorrido se divide la mitad de nodos por recorrer.en el ejemplo de 5 bicis en un arbol balanceado,habria que solo analizar 3 nodos en lugar de los 5.

@@ -39,9 +39,10 @@ private:
     // Acciones auxiliares
     void ejecutarListadoOrdenado();
     void ejecutarListarPorOcupacion();
+    void ejecutarRetirarDevolverBici();
     string uppercase(string *texto);
 
-public :
+  public:
     Sistema();
     ~Sistema();
 

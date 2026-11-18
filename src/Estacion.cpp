@@ -109,13 +109,13 @@ string Estacion::desencolarUsuario()
 
 Bicicleta* Estacion::solicitarBicicleta(const string &dniUsuario)
 {
-    // Caso 1: Hay bicicletas disponibles
+    // Caso 1: hay bicicletas disponibles
     if (bicisDisp > 0 && primeraBicicleta != nullptr)
     {
         NodoBicicleta *aux = primeraBicicleta;
         Bicicleta *biciRetirada = aux->bicicleta;
         primeraBicicleta = primeraBicicleta->siguiente;
-        delete aux; // Se retira de la pila local de la estación
+        delete aux; // se retira de la pila local de la estación
         bicisDisp--;
 
         cout << "Bicicleta asignada con exito al usuario DNI: " << dniUsuario << endl;
@@ -125,7 +125,7 @@ Bicicleta* Estacion::solicitarBicicleta(const string &dniUsuario)
     // Caso 2: No hay bicicletas disponibles, se encola al usuario
     encolarUsuario(dniUsuario);
     cout << "Sin bicis disponibles en " << codigo << ". Usuario DNI " << dniUsuario
-         << " ingresado a la cola de espera.\n";
+        << " ingresado a la cola de espera.\n";
     return nullptr;
 }
 
@@ -134,17 +134,16 @@ void Estacion::devolverBicicleta(Bicicleta *bici)
     if (bici == nullptr)
         return;
 
-    // Si hay gente esperando en la cola, la bicicleta pasa directamente al usuario
+    // si hay gente esperando en la cola, la bicicleta pasa directamente al usuario
     if (!estaVaciaCola())
     {
         string dniSiguiente = desencolarUsuario();
-        solicitarBicicleta(dniSiguiente);
-        cout << "Bicicleta devuelta asignada inmediatamente a DNI: " << dniSiguiente
-             << " (estaba en cola de espera).\n";
+        cout << "Bicicleta devuelta asignada a DNI: " << dniSiguiente
+            << " (estaba en cola de espera).\n";
     }
     else
     {
-        // Si no hay nadie en cola, se ancla en la estación
+        // si no hay nadie en cola, se ancla en la estación
         if (agregarBici(bici))
         {
             cout << "Bicicleta devuelta y anclada correctamente en estacion " << codigo << ".\n";
