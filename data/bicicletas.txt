@@ -24,3 +24,4 @@
 524 PCA Electrica OK 1450
 525 PCA Mecanica OK 3100
 526 PCA Electrica OK 6200
+527 PAL Electrica OK 1780

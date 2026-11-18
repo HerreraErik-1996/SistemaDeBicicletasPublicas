@@ -1,10 +1,10 @@
 codigo nombre barrio capacidad_anclajes bicis_disponibles
-PLZ PlazaDeMayo Monserrat 30 0
+PLZ PlazaDeMayo Monserrat 12 0
 PAL ParqueTresDeFebrero Palermo 40 0
 CAB PrimeraJunta Caballito 25 0
 REC Recoleta Recoleta 12 0
-BEL BarrancasDeBelgrano Belgrano 10 0
-NUN PlazaBalcarce Nunez 10 0
+BEL BarrancasDeBelgrano Belgrano 15 0
+NUN PlazaBalcarce Nunez 30 0
 ALM PlazaAlmagro Almagro 8 0
 BOE ParqueChacabuco Boedo 10 0
 PCA ParqueCentenario Caballito 12 0

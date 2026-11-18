@@ -66,6 +66,8 @@ bool Sistema::cargarEstaciones()
         tablaEstaciones.insertar(est);
     }
     archivo.close();
+    tablaEstaciones.mostrarColisiones();
+
     return true;
 }
 
