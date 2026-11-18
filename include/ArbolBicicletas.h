@@ -28,21 +28,23 @@ private:
     void listarMasDeXKmRec(NodoBici *nodo, int limiteKm, bool &seEncontraron) const;
     void destruirRec(NodoBici *nodo); // Postorder
     void asignarAEstacionesRec(NodoBici *nodo, TablaHashEstaciones &tabla);
+    NodoBici *eliminarRec(NodoBici *nodo, int id, bool &eliminado);
 
-public:
+  public:
     ArbolBicicletas();
     ~ArbolBicicletas();
 
     void cargarDesdeArchivo(const string &rutaArchivo);
     void insertar(const Bicicleta &bici);
     void asignarAEstaciones(TablaHashEstaciones &tabla);
+    
 
     // Métodos requeridos por la consigna C
     bool buscarPorId(int id) const;
     void listarInorder() const;
     int contarAveriadas() const;
     int calcularAltura() const;
-
+    bool eliminar(int id);
 
     // Punto B.3 previo
     void listarBicicletasMasDeXKm(int limiteKm) const;
