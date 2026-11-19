@@ -1,79 +1,42 @@
+#pragma once
 #include <iostream>
-using namespace std;
+#include <string>
+
+#include "estacion.h"
 
 class Grafo
 {
 private:
     struct Nodo
     {
-        int vertice;
+        int idVertice;
         Nodo *siguiente;
     };
 
+    struct Vertice
+    {
+        int id;
+        Estacion *estacion;
+        Nodo *adyacentes;
+    };
+
     int cantidadVertices;
-    Nodo **adyacencia;
+    int capacidadVertices;
+    Vertice *vertices;
+
+    int buscarId(const std::string &codigo);
 
 public:
-    Grafo (int cantidad)
-    {
-        cantidadVertices = cantidad;
-        adyacencia = new Nodo *[cantidadVertices];
-        for (int i = 0; i < cantidadVertices; i++){
-            adyacencia[i] = nullptr;
-        }
-    }
+    Grafo();
+    ~Grafo();
+    void agregarEstacion(Estacion *est);
+    bool agregarArista(const std::string &origen, const std::string &destino);
+    void mostrar();
+    bool quitarEstacion(const std::string &codigo);
+    void listarEstacionesOrdenadas(int tipoListado);
+    void listarEstacionesBajaOcupacion();
+    void BFS(const std::string &origen, const std::string &destino);
 
-    void agregarArista(int origen, int destino)
-    {
-        if (origen < 0 || origen >= cantidadVertices || destino < 0 || destino >= cantidadVertices){
-                return;
-            }
-        Nodo *nuevo = new Nodo;
-        nuevo->vertice= destino;
-        nuevo->siguiente= adyacencia[origen];
-        adyacencia[origen] = nuevo;
-        
-        //porque es grafo no dirigido
-        Nodo *nuevo2 = new Nodo;
-        nuevo2->vertice = destino;
-        nuevo2->siguiente = adyacencia[destino];
-        adyacencia[destino] = nuevo2;
-    }
-
-    void mostrar()
-    {
-        for (int i = 0; i < cantidadVertices; i++)
-        {
-            cout << "Vertice " << i << ": ";
-
-            Nodo *actual = adyacencia[i];
-
-            while (actual != nullptr)
-            {
-                cout << actual->vertice << " ";
-                actual = actual->siguiente;
-            }
-
-            cout << endl;
-        }
-    }
-
-    ~Grafo()
-    {
-        for (int i = 0; i < cantidadVertices; i++)
-        {
-            Nodo *actual = adyacencia[i];
-
-            while (actual != nullptr)
-            {
-                Nodo *auxiliar = actual;
-                actual = actual->siguiente;
-                delete auxiliar;
-            }
-        }
-
-        delete[] adyacencia;
-    }
     Grafo(const Grafo &) = delete;
     Grafo &operator=(const Grafo &) = delete;
 };
